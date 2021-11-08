@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import KakaoWebView from './src/components/atoms/KakaoWebView';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// screen
+import HomeScreen from "./src/screens/Home";
+import CertificationScreen from "./src/screens/Certification/index";
+import phoneAuthScreen from "./src/screens/Certification/phoneAuthScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <KakaoWebView />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Certification" component={CertificationScreen} />
+        <Stack.Screen name="phoneAuth" component={phoneAuthScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-});
