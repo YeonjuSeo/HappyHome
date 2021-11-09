@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const runFirst = `window.ReactNativeWebView.postMessage("this is message from web");`;
 
-const KakaoWebView = () => {
+const kakaoLoginScreen = () => {
 
   const requestAccessCode = (data) => {
     const exp = "code=";
@@ -28,7 +28,7 @@ const KakaoWebView = () => {
         params: {
             grant_type: 'authorization_code',
             client_id: '발급받은_rest_api_key',  //rest api key
-            redirect_uri: 'http://localhost:3000/oauth',    //redirect uri
+            redirect_uri: 'https://us-central1-sumsum-af3c7.cloudfunctions.net/user/oauth',    //redirect uri
             code: request_code,
         },
     }).then((response) => {
@@ -45,7 +45,7 @@ const KakaoWebView = () => {
         originWhitelist={['*']}
         scalesPageToFit={false}
         style={{ marginTop: 30 }}
-        source={{ uri: 'https://kauth.kakao.com/oauth/authorize?client_id={발급받은_rest_api_key}&redirect_uri=http://localhost:3000/oauth&response_type=code' }}
+        source={{ uri: 'https://kauth.kakao.com/oauth/authorize?client_id=1908d7cac3640106048d098e6bf64be2&redirect_uri=https://us-central1-sumsum-af3c7.cloudfunctions.net/user/oauth&response_type=code' }}
         injectedJavaScript={runFirst}
         javaScriptEnabled={true}
         onMessage={(event) => { requestAccessCode(event.nativeEvent["url"]); }}
@@ -55,4 +55,4 @@ const KakaoWebView = () => {
   )
 }
 
-export default KakaoWebView;
+export default kakaoLoginScreen;
