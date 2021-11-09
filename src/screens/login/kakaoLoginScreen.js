@@ -2,10 +2,13 @@ import React from 'react';
 import { View } from "react-native";
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
+import getEnvVars from '../../settings/environment';
 
 const runFirst = `window.ReactNativeWebView.postMessage("this is message from web");`;
 
 const kakaoLoginScreen = () => {
+  const { apiUrl, kakaoApiKey } = getEnvVars();
+  const kakaoBaseURL = "https://kauth.kakao.com/oauth";
 
   const requestAccessCode = (data) => {
     const exp = "code=";
@@ -20,15 +23,15 @@ const kakaoLoginScreen = () => {
 
   const requestToken = async (request_code) => {
     let returnValue = "none";
-    const request_token_url = "https://kauth.kakao.com/oauth/token";
+    const request_token_url = `${kakaoBaseURL}/token`;
 
     axios({
         method: "post",
         url: request_token_url,
         params: {
             grant_type: 'authorization_code',
-            client_id: '발급받은_rest_api_key',  //rest api key
-            redirect_uri: 'https://us-central1-sumsum-af3c7.cloudfunctions.net/user/oauth',    //redirect uri
+            client_id: `${kakaoApiKey}`,  //rest api key
+            redirect_uri: `${apiUrl}/user/oauth`,    //redirect uri
             code: request_code,
         },
     }).then((response) => {
@@ -45,7 +48,7 @@ const kakaoLoginScreen = () => {
         originWhitelist={['*']}
         scalesPageToFit={false}
         style={{ marginTop: 30 }}
-        source={{ uri: 'https://kauth.kakao.com/oauth/authorize?client_id=1908d7cac3640106048d098e6bf64be2&redirect_uri=https://us-central1-sumsum-af3c7.cloudfunctions.net/user/oauth&response_type=code' }}
+        source={{ uri: `${kakaoBaseURL}/authorize?client_id=${kakaoApiKey}&redirect_uri=${apiUrl}/user/oauth&response_type=code` }}
         injectedJavaScript={runFirst}
         javaScriptEnabled={true}
         onMessage={(event) => { requestAccessCode(event.nativeEvent["url"]); }}

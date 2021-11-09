@@ -8,7 +8,7 @@ export function HomeScreen({ navigation }) {
       <Text>홈화면</Text>
       <Button
         title="본인인증하러가기슝슝"
-        onPress={() => navigation.navigate("phoneAuth")}
+        onPress={() => navigation.navigate("kakaoLogin")}
       />
     </View>
   );
