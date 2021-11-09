@@ -9,6 +9,8 @@ import HomeScreen from "./src/screens/Home";
 import CertificationScreen from "./src/screens/Certification/index";
 import phoneAuthScreen from "./src/screens/Certification/phoneAuthScreen";
 import kakaoLoginScreen from "./src/screens/Login/kakaoLoginScreen";
+import WishLocationScreen from "./src/screens/Onboarding/WishLocation";
+import LocationSearchScreen from "./src/screens/Onboarding/LocationSearch";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ export default function App() {
         <Stack.Screen name="Certification" component={CertificationScreen} />
         <Stack.Screen name="phoneAuth" component={phoneAuthScreen} />
         <Stack.Screen name="kakaoLogin" component={kakaoLoginScreen} />
+        <Stack.Screen name="WishLocation" component={WishLocationScreen} />
+        <Stack.Screen name="LocationSearch" component={LocationSearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
