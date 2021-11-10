@@ -10,6 +10,10 @@ export function HomeScreen({ navigation }) {
         title="본인인증하러가기슝슝"
         onPress={() => navigation.navigate("kakaoLogin")}
       />
+      <Button
+        title="온보딩에서 희망 거주지 검색하러 가기"
+        onPress={() => navigation.navigate("WishLocation")}
+      />
     </View>
   );
 }
