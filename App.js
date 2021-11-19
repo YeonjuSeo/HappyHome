@@ -15,8 +15,10 @@ import phoneAuthScreen from "./src/screens/Certification/phoneAuthScreen";
 import kakaoLoginScreen from "./src/screens/Login/kakaoLoginScreen";
 import WishLocationScreen from "./src/screens/Onboarding/WishLocation";
 import LocationSearchScreen from "./src/screens/Onboarding/LocationSearch";
+
 import WritePostScreen from "./src/screens/Post/WritePost";
 import DetailsScreen from "./src/screens/Post/Details";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -68,5 +70,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>
+
   );
 }

@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import Postcode from "@actbase/react-daum-postcode";
 import { wishAddrState } from "../../states/User";
@@ -19,6 +20,7 @@ export function LocationSearchScreen({ route, navigation }) {
           setPostAddr(JSON.stringify(data.roadAddress));
         navigation.navigate(route.params.prev);
       }}
+
     />
   );
 }
