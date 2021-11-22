@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ScrollView, View, Text, Image } from "react-native";
 import FullLogoImg from "../../assets/FullLogoImg.png";
 import LowerButton from "../../components/molecules/LowerButton";
+import Carousel from "../../components/molecules/Carousel";
 
 // styles
 import {
@@ -17,71 +18,75 @@ import { PRIMARY, GRAY2, GRAY1 } from "../../styles/color";
 
 export default function DetailsScreen() {
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={{ flex: 9 }}>
-        <Image source={FullLogoImg} />
-        <UpperWrapper>
-          <SubTitle>서대문구 대현동 · 2일전</SubTitle>
-          <Title>대현동 역세권 원룸 겨울방학만 단기로 빌려드립니다</Title>
-          <Distance>504m</Distance>
-          <Description>
-            근처 대학 학생인데 방학기간동안 시험준비로 지방 본가에 내려가게 되어
-            두 달동안 들어오실 분 구합니다. 방에 있는 세탁기랑 전자레인지 등 다
-            사용하셔도 되고요. 궁금하신 것 있으시면 메세지 남겨주세요.
-          </Description>
-        </UpperWrapper>
-        <LowerWrapper>
-          <LargeSectionTitle>거래정보</LargeSectionTitle>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>가격</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Price>W100,000/주</Price>
-              <Price style={{ paddingTop: 4, marginBottom: 8 }}>
-                W300,000/월
-              </Price>
-              <Text style={[Regular14, { color: GRAY1 }]}>*관리비 포함</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>전대 기간</SmallSectionTitle>
-          </SmallSectionWrapper>
-          <LargeSectionTitle>방 정보</LargeSectionTitle>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>주소</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Text style={Regular14}>서울시 서대문구 대현동 11-1</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>매물 기본정보</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Text style={Regular14}>빌라</Text>
-              <Text style={Regular14}>지상층</Text>
-              <Text style={Regular14}>오픈형</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>방 옵션</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Text style={Regular14}>아이콘과 옵션 상태가 들어갑니다</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>특징</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Text style={Regular14}>해시태그 정보가 들어갑니다</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-          <LargeSectionTitle>기타</LargeSectionTitle>
-          <SmallSectionWrapper>
-            <SmallSectionTitle>희망 전차인 유형</SmallSectionTitle>
-            <SmallBorderSectionContentWrapper>
-              <Text style={Regular14}>성별무관 흡연무관 버튼이 들어갑니다</Text>
-            </SmallBorderSectionContentWrapper>
-          </SmallSectionWrapper>
-        </LowerWrapper>
-      </View>
-
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <View>
+          <Carousel height={196} isIdxVisible={true} />
+          {/* <Image source={FullLogoImg} /> */}
+          <UpperWrapper>
+            <SubTitle>서대문구 대현동 · 2일전</SubTitle>
+            <Title>대현동 역세권 원룸 겨울방학만 단기로 빌려드립니다</Title>
+            <Distance>504m</Distance>
+            <Description>
+              근처 대학 학생인데 방학기간동안 시험준비로 지방 본가에 내려가게
+              되어 두 달동안 들어오실 분 구합니다. 방에 있는 세탁기랑 전자레인지
+              등 다 사용하셔도 되고요. 궁금하신 것 있으시면 메세지 남겨주세요.
+            </Description>
+          </UpperWrapper>
+          <LowerWrapper>
+            <LargeSectionTitle>거래정보</LargeSectionTitle>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>가격</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Price>W100,000/주</Price>
+                <Price style={{ paddingTop: 4, marginBottom: 8 }}>
+                  W300,000/월
+                </Price>
+                <Text style={[Regular14, { color: GRAY1 }]}>*관리비 포함</Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>전대 기간</SmallSectionTitle>
+            </SmallSectionWrapper>
+            <LargeSectionTitle>방 정보</LargeSectionTitle>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>주소</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Text style={Regular14}>서울시 서대문구 대현동 11-1</Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>매물 기본정보</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Text style={Regular14}>빌라</Text>
+                <Text style={Regular14}>지상층</Text>
+                <Text style={Regular14}>오픈형</Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>방 옵션</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Text style={Regular14}>아이콘과 옵션 상태가 들어갑니다</Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>특징</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Text style={Regular14}>해시태그 정보가 들어갑니다</Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+            <LargeSectionTitle>기타</LargeSectionTitle>
+            <SmallSectionWrapper>
+              <SmallSectionTitle>희망 전차인 유형</SmallSectionTitle>
+              <SmallBorderSectionContentWrapper>
+                <Text style={Regular14}>
+                  성별무관 흡연무관 버튼이 들어갑니다
+                </Text>
+              </SmallBorderSectionContentWrapper>
+            </SmallSectionWrapper>
+          </LowerWrapper>
+        </View>
+      </ScrollView>
       <FixedFooter>
         <Text style={Medium14}>대현동새내기 김지원</Text>
         <Text style={[Medium14, { color: GRAY1, marginTop: 9 }]}>전대인</Text>
@@ -92,7 +97,7 @@ export default function DetailsScreen() {
           txt="채팅 보내기"
         />
       </FixedFooter>
-    </ScrollView>
+    </View>
   );
 }
 const UpperWrapper = styled.View`
@@ -149,7 +154,6 @@ const FixedFooter = styled.View`
   border-top-color: #d7d7d7;
   border-width: 1px;
   height: 124px;
-  flex: 1;
   width: 100%;
   padding: 14px 16px 0 16px;
 `;
