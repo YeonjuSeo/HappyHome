@@ -36,7 +36,7 @@ const kakaoLoginScreen = () => {
         },
     }).then((response) => {
         returnValue = response.data.access_token;
-        //console.log("access token : " + returnValue);
+        console.log("access token : " + returnValue);
     }).catch((error) => {
         console.log('error', error);
     });
