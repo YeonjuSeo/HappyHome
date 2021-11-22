@@ -51,7 +51,7 @@ export function HomeScreen({ navigation }) {
     if (wishAddr == "" && location)
       axios
         .get(
-          `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${location.longitude}&y=${location.latitude}`,
+          `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=127.423084873712&y=37.0789561558879`,
           {
             headers: {
               Authorization: `KakaoAK ${kakaoApiKey}`,
