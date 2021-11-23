@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,9 +19,13 @@ import LocationSearchScreen from "./src/screens/Onboarding/LocationSearch";
 import WritePostScreen from "./src/screens/Post/WritePost";
 import DetailsScreen from "./src/screens/Post/Details";
 
+// Auth 관련
+import LoginScreen from "./src/screens/Login/loginScreen";
+import PhoneAuthLandingPage from "./src/screens/Certification/phoneAuthLandingPage";
+import UnivAuthLandingPage from "./src/screens/Certification/univAuthLandingPage";
+import NicknameSettingPage from "./src/screens/Certification/nicknameSettingPage";
 
 const Stack = createNativeStackNavigator();
-
 export default function App() {
   return (
     <RecoilRoot>
@@ -67,9 +71,30 @@ export default function App() {
           />
           <Stack.Screen name="WritePost" component={WritePostScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="PhoneAuthLandingPage" component={PhoneAuthLandingPage} />
+          <Stack.Screen name="UnivAuthLandingPage" component={UnivAuthLandingPage} />
+          <Stack.Screen name="NicknameSettingPage" component={NicknameSettingPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>
 
   );
 }
+
+/*
+  const [auth, setAuth] = useRecoilState(authState);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      let token = null;
+      try {
+        token = await AsyncStorage.getItem('token')
+        setAuth(token)
+        console.log(token)
+      } catch (err) {
+        console.log(err)
+      }
+    }, 10)
+  },[]) 
+  */

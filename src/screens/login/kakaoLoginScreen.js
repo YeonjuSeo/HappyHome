@@ -3,10 +3,17 @@ import { View } from "react-native";
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import getEnvVars from '../../settings/environment';
+import { isLoggedInState } from '../../states/IsLoggedIn';
+import { userInfoState } from '../../states/UserInfo';
+import { useRecoilState } from "recoil-react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const runFirst = `window.ReactNativeWebView.postMessage("this is message from web");`;
 
-const kakaoLoginScreen = () => {
+const kakaoLoginScreen = ({navigation}) => {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState)
+
   const { apiUrl, kakaoApiKey } = getEnvVars();
   const kakaoBaseURL = "https://kauth.kakao.com/oauth";
 
@@ -35,8 +42,43 @@ const kakaoLoginScreen = () => {
             code: request_code,
         },
     }).then((response) => {
-        returnValue = response.data.access_token;
-        console.log("access token : " + returnValue);
+        kakaoToken = response.data.access_token;
+        console.log("access token : " + kakaoToken);
+        //setAuth(returnValue)
+        //AsyncStorage.setItem("token", returnValue)
+        //  .then(() => {
+        //    console.log('Go back')
+        //    navigation.goBack();
+        //  })
+        axios.get(
+          "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/users/signin",
+          {
+            headers: {
+              Authorization: kakaoToken,
+            }
+          }
+        )
+        .then((res) => {
+          const { token, user } = res.data.data;
+          let data = {
+            uid: user.uid,
+            token,
+            isPhoneAuthDone : user.isPhoneAuthDone,
+            isUnivAuthDone : user.isUnivAuthDone,
+            isNicknameSettingDone : user.isNicknameSettingDone,
+            photoURL : user.photoURL,
+          };
+          setUserInfo(data);
+          setIsLoggedIn(true);
+          AsyncStorage.setItem('auth', JSON.stringify(data))
+            .then(() => {
+              navigation.goBack();
+            })
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
     }).catch((error) => {
         console.log('error', error);
     });
