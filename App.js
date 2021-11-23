@@ -15,12 +15,15 @@ import phoneAuthScreen from "./src/screens/Certification/phoneAuthScreen";
 import kakaoLoginScreen from "./src/screens/Login/kakaoLoginScreen";
 import WishLocationScreen from "./src/screens/Onboarding/WishLocation";
 import LocationSearchScreen from "./src/screens/Onboarding/LocationSearch";
-
 import WritePostScreen from "./src/screens/Post/WritePost";
+import UploadImgScreen from "./src/screens/Post/UploadImg";
 import DetailsScreen from "./src/screens/Post/Details";
+import MyPageScreen from "./src/screens/MyPage";
+import ChattingRoomScreen from "./src/screens/Chat/ChattingRoom";
+import ResultScreen from "./src/screens/Home/ResultScreen";
 
 // Auth 관련
-import LoginScreen from "./src/screens/Login/loginScreen";
+// import LoginScreen from "./src/screens/Login/loginScreen";
 import PhoneAuthLandingPage from "./src/screens/Certification/phoneAuthLandingPage";
 import UnivAuthLandingPage from "./src/screens/Certification/univAuthLandingPage";
 import NicknameSettingPage from "./src/screens/Certification/nicknameSettingPage";
@@ -32,19 +35,9 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
-            name="Home"
+            name=" "
             component={HomeScreen}
-            options={({ navigation, route }) => ({
-              // headerTitle: () => (
-              //   <Button
-              //     title="test"
-              //     onPress={() => {
-              //       console.log("HeaderTitlePressed");
-              //     }}
-              //   />
-              // ),
-              headerRight: () => <Button title="My" />,
-            })}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="Filter"
@@ -61,9 +54,10 @@ export default function App() {
               headerRight: () => <Button title="초기화" />,
             })}
           />
+          <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Certification" component={CertificationScreen} />
           <Stack.Screen name="phoneAuth" component={phoneAuthScreen} />
-          <Stack.Screen name="kakaoLogin" component={kakaoLoginScreen} />
+          {/* <Stack.Screen name="kakaoLogin" component={kakaoLoginScreen} /> */}
           <Stack.Screen name="WishLocation" component={WishLocationScreen} />
           <Stack.Screen
             name="LocationSearch"
@@ -71,14 +65,24 @@ export default function App() {
           />
           <Stack.Screen name="WritePost" component={WritePostScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="PhoneAuthLandingPage" component={PhoneAuthLandingPage} />
-          <Stack.Screen name="UnivAuthLandingPage" component={UnivAuthLandingPage} />
-          <Stack.Screen name="NicknameSettingPage" component={NicknameSettingPage} />
+          <Stack.Screen name="LoginScreen" component={kakaoLoginScreen} />
+          <Stack.Screen
+            name="PhoneAuthLandingPage"
+            component={PhoneAuthLandingPage}
+          />
+          <Stack.Screen
+            name="UnivAuthLandingPage"
+            component={UnivAuthLandingPage}
+          />
+          <Stack.Screen
+            name="NicknameSettingPage"
+            component={NicknameSettingPage}
+          />
+          <Stack.Screen name="MyPage" component={MyPageScreen} />
+          <Stack.Screen name="ChattingRoom" component={ChattingRoomScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>
-
   );
 }
 
