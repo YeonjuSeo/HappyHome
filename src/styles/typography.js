@@ -6,9 +6,9 @@ export const Bold16 = css`
   line-height: 19.2px;
 `;
 export const Bold14 = css`
-    font-weightL700;
-    font-size:14px;
-    line-height:17px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
 `;
 export const SemiBold17 = css`
   font-weight: 600;
@@ -24,6 +24,11 @@ export const SemiBold14 = css`
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+`;
+export const SemiBold13 = css`
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
 `;
 export const Medium15 = css`
   font-weight: 500;
