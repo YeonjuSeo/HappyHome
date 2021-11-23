@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { ScrollView, View, Text, Image } from "react-native";
-import FullLogoImg from "../../assets/FullLogoImg.png";
+
 import LowerButton from "../../components/molecules/LowerButton";
 import Carousel from "../../components/molecules/Carousel";
+import ChatIcon from "../../assets/chat.png";
 
 // styles
 import {
@@ -14,15 +15,14 @@ import {
   Bold16,
   Regular14,
 } from "../../styles/typography";
-import { PRIMARY, GRAY2, GRAY1 } from "../../styles/color";
+import { PRIMARY, GRAY2, GRAY1, GRAY0 } from "../../styles/color";
 
-export default function DetailsScreen() {
+export default function DetailsScreen({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
         <View>
           <Carousel height={196} isIdxVisible={true} />
-          {/* <Image source={FullLogoImg} /> */}
           <UpperWrapper>
             <SubTitle>서대문구 대현동 · 2일전</SubTitle>
             <Title>대현동 역세권 원룸 겨울방학만 단기로 빌려드립니다</Title>
@@ -92,9 +92,10 @@ export default function DetailsScreen() {
         <Text style={[Medium14, { color: GRAY1, marginTop: 9 }]}>전대인</Text>
         <LowerButton
           onPress={() => {
-            console.log("This Pressed");
+            navigation.navigate("ChattingRoom");
           }}
           txt="채팅 보내기"
+          icon={ChatIcon}
         />
       </FixedFooter>
     </View>
@@ -127,7 +128,7 @@ const SmallBorderSectionContentWrapper = styled.View`
   align-items: center;
   padding: 13px 0 14px 0;
   border-width: 1px;
-  border-color: #e6e6e6;
+  border-color: ${GRAY0};
 `;
 const SubTitle = styled.Text`
   ${Medium12}
