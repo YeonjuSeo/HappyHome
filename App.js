@@ -20,7 +20,6 @@ import WritePostScreen from "./src/screens/Post/WritePost";
 import DetailsScreen from "./src/screens/Post/Details";
 
 // Auth 관련
-import LoginScreen from "./src/screens/Login/loginScreen";
 import PhoneAuthLandingPage from "./src/screens/Certification/phoneAuthLandingPage";
 import UnivAuthLandingPage from "./src/screens/Certification/univAuthLandingPage";
 import NicknameSettingPage from "./src/screens/Certification/nicknameSettingPage";
@@ -71,7 +70,6 @@ export default function App() {
           />
           <Stack.Screen name="WritePost" component={WritePostScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="PhoneAuthLandingPage" component={PhoneAuthLandingPage} />
           <Stack.Screen name="UnivAuthLandingPage" component={UnivAuthLandingPage} />
           <Stack.Screen name="NicknameSettingPage" component={NicknameSettingPage} />
