@@ -24,12 +24,16 @@ import PhoneAuthLandingPage from "./src/screens/Certification/phoneAuthLandingPa
 import UnivAuthLandingPage from "./src/screens/Certification/univAuthLandingPage";
 import NicknameSettingPage from "./src/screens/Certification/nicknameSettingPage";
 
+//Test
+import Test from "./src/screens/Test";
+
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Test">
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -73,6 +77,7 @@ export default function App() {
           <Stack.Screen name="PhoneAuthLandingPage" component={PhoneAuthLandingPage} />
           <Stack.Screen name="UnivAuthLandingPage" component={UnivAuthLandingPage} />
           <Stack.Screen name="NicknameSettingPage" component={NicknameSettingPage} />
+          <Stack.Screen name="Test" component={Test} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>
