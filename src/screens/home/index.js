@@ -109,7 +109,7 @@ export function HomeScreen({ navigation }) {
         isNicknameSettingDone,
         photoURL
       };
-
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setIsLoggedIn(true);
       setUserInfo(data);
       await AsyncStorage.setItem('auth', JSON.stringify(data))
