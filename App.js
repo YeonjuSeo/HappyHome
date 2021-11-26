@@ -33,7 +33,7 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Test">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={HomeScreen}
