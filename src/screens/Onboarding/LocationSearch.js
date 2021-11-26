@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import Postcode from "@actbase/react-daum-postcode";
 import { wishAddrState } from "../../states/User";
@@ -11,7 +10,7 @@ export function LocationSearchScreen({ route, navigation }) {
 
   return (
     <Postcode
-      style={{ width: 320, height: 320 }}
+      style={{ flex: 1 }}
       jsOptions={{ animation: true }}
       onSelected={(data) => {
         if (route.params.prev == "Home")
@@ -20,7 +19,6 @@ export function LocationSearchScreen({ route, navigation }) {
           setPostAddr(JSON.stringify(data.roadAddress));
         navigation.navigate(route.params.prev);
       }}
-
     />
   );
 }

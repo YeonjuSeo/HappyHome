@@ -20,6 +20,10 @@ export const postAddrState = atom({
   key: "postAddrState",
   default: "ff",
 });
+export const postImgState = atom({
+  key: "postImgState",
+  default: "",
+});
 export const dateState = atom({
   key: "dateState",
   default: { startDate: new Date(today), finishDate: new Date(today) },

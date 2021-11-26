@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-export default function LowerButton({ onPress, txt }) {
+import { Image } from "react-native";
+export default function LowerButton({ onPress, txt, icon }) {
   return (
     <PostButton onPress={onPress}>
+      <Image style={{ marginBottom: 7 }} source={icon} />
       <PostButtonText>{txt}</PostButtonText>
     </PostButton>
   );
