@@ -53,7 +53,7 @@ export default function DetailsScreen({ navigation, route }) {
   const userInfo = useRecoilValue(userInfoState);
 
   useEffect(() => {
-    console.log("id: ", route.params.id);
+    // console.log("id: ", route.params.id);
     axios
       .post(`${apiUrl}/api/posts/postid`, {
         xLocation: wishCoor.x,
@@ -63,7 +63,7 @@ export default function DetailsScreen({ navigation, route }) {
       .then((res) => {
         const { data } = res.data;
         setPost(data);
-        console.log(data);
+        // console.log(data);
         address = data.location.split(" ");
       })
       .catch((err) => {
