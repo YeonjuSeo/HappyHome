@@ -30,7 +30,7 @@ const NicknameSettingPage = ({ route, navigation }) => {
         patch(
           "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/users/nickname",
           {
-            nickname: "꼬미집사"
+            nickname,
           }
         )
         .then((res) => {

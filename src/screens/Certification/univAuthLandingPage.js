@@ -66,7 +66,8 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
 
     return (
       <View style={{width: '100%', marginBottom:10}}>
-        <ButtonWrapper 
+        <ButtonWrapper
+          disabled={!isConfirmed}
           onPressOut={() => onPressOutHandler()}
         >
           <TitleWhiteTxt>
@@ -80,9 +81,18 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
     return (
       <SendBtnWrapper isEmailSent={isEmailSent}>
         <TouchableOpacity onPress={() => {
-          setTimeout(()=>{
-            setIsEmailSent(true)
-          }, 500)
+            axios.post(
+              "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/users/auth/secretmail",
+              {
+                email,
+              }
+            )
+            .then((res) => {
+              setIsEmailSent(true)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }}>
           <TitleWhiteTxt>
             {text}
@@ -95,9 +105,21 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
     return (
       <ConfirmBtnWrapper isConfirmed={isConfirmed}>
         <TouchableOpacity onPress={() => {
-          setTimeout(()=>{
-            setIsConfirmed(true)
-          }, 1000)
+            axios.post(
+              "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/users/auth/confirmsecret",
+              {
+                secret,
+              }
+            )
+            .then((res) => {
+              let flag = res.data.data
+              if(flag){
+                setIsConfirmed(true)
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }}>
           <TitleWhiteTxt>
             {!isConfirmed ? text : "인증 완료"}
