@@ -59,12 +59,14 @@ export default function MyPageScreen({ navigation }) {
       <SectionWrapper>
         <SectionTitle>채팅</SectionTitle>
         <View>
-          <ChatCard
-            navigation={navigation}
-            title="대현동 역세권 원룸 겨울방학만 단기로… "
-            member={{ nickname: "역마낀", name: "최지민", id: "kakao:27" }}
-            recentMsg="안녕하세요~! 혹시 다른 각도의 사진도 볼 수 있을까요?"
-          />
+          {userInfo.uid == "kakao:1980885517" && (
+            <ChatCard
+              navigation={navigation}
+              title="신촌 근처 방 내놓아요"
+              member={{ nickname: "역마낀", name: "최지민", id: "kakao:27" }}
+              recentMsg="안녕하세요~! 혹시 다른 각도의 사진도 볼 수 있을까요?"
+            />
+          )}
         </View>
       </SectionWrapper>
     </Wrapper>
