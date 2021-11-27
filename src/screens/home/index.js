@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import styled, { css } from "styled-components/native";
 import * as Location from "expo-location";
 import { useRecoilState } from "recoil-react-native";
 import getEnvVars from "../../settings/environment";
 
 // components
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, SafeAreaView, Image, TouchableOpacity } from "react-native";
 
 import LoginScreenComp from "../Login/LoginScreenComp";
 import HomeComp from "./HomeComp";
 import SplashScreen from "../Splash";
+import KakaoButton from "../../components/atoms/kakaoButton";
 
 // states
 import { wishAddrState } from "../../states/User";
@@ -19,6 +20,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isLoggedInState } from "../../states/IsLoggedIn";
 import { useFocusEffect } from "@react-navigation/native";
 import { userInfoState } from "../../states/UserInfo";
+
+import { Bold17 } from "../../styles/typography";
+import { GRAY4, PRIMARY } from "../../styles/color";
+
+
 
 export function HomeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -70,7 +76,7 @@ export function HomeScreen({ navigation }) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const initializeUserInfo = async () => {
-    //await AsyncStorage.removeItem("auth");
+    await AsyncStorage.removeItem("auth");
     const ud = await AsyncStorage.getItem("auth");
     if (!ud) {
       //토큰이 없음
@@ -111,8 +117,6 @@ export function HomeScreen({ navigation }) {
       setIsLoggedIn(false);
       return;
     })
-
-    //axios.defaults.headers.common['Authorization'] = ud.token;
   };
 
   const LoginScreen = () => {
@@ -121,13 +125,13 @@ export function HomeScreen({ navigation }) {
         if (userInfo) {
           console.log("callback");
           if (!userInfo.isPhoneAuthDone) {
-            console.log("PhoneAuthLandingPage");
-            navigation.navigate("PhoneAuthLandingPage");
+            console.log("phoneAuth");
+            navigation.navigate("phoneAuth");
           } else if (userInfo.isPhoneAuthDone && !userInfo.isUnivAuthDone) {
             console.log("UnivAuthLandingPage");
             navigation.navigate("UnivAuthLandingPage");
           } else if (
-            !userInfo.isPhoneAuthDone &&
+            userInfo.isPhoneAuthDone &&
             userInfo.isUnivAuthDone &&
             !userInfo.isNicknameSettingDone
           ) {
@@ -137,36 +141,63 @@ export function HomeScreen({ navigation }) {
         }
       }, [isLoggedIn])
     );
+    const Wrapper = styled.SafeAreaView`
+    flex: 1;
+    background-color: white;
+    `;
+    const UpperWrapper = styled.View`
+      flex: 1;
+      align-items: center;
+      justify-content: flex-end;
+    `;
+    const DownerWrapper = styled.View`
+      flex: 1;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 50px;
+    `;
+    const TextWrapper = styled.View`
+      align-items: center;
+    `;
+    const TitleGrayTxt = styled.Text`
+      ${Bold17};
+      color: ${GRAY4};
+    `;
+    const TitlePrimaryTxt = styled.Text`
+      ${Bold17};
+      color: ${PRIMARY};
+    `;
+
 
     return (
-      <View>
-        <Text>login Screen</Text>
-        <Button
-          title="카카오 로그인"
-          onPress={() => {
-            navigation.navigate("kakaoLogin");
-          }}
-        />
-        <Button
-          title="Check token and user info"
-          onPress={async () => {
-            let token = null;
-            auth = await AsyncStorage.getItem("auth");
-            console.log(`auth: ${auth}`);
-            console.log(`isLoggedIn : ${isLoggedIn}`);
-            console.log(`userInfo : ${userInfo}`);
-          }}
-        />
-        <Button
-          title="remove token and userInfo"
-          onPress={async () => {
-            let token = null;
-            await AsyncStorage.removeItem("auth");
-            setIsLoggedIn(false);
-            setUserInfo(null);
-          }}
-        />
-      </View>
+      <Wrapper>
+        <UpperWrapper>
+          <Image
+            source={require('../../assets/HalfLogoImg.png')}
+            style={{
+              width: 90,
+              height: 90,
+              marginBottom: 30,
+            }}
+          />
+          <TextWrapper>
+            <TitleGrayTxt>
+              간편하게 로그인하고
+            </TitleGrayTxt>
+            <View style={{flexDirection: "row"}}>
+            <TitlePrimaryTxt>
+              숨숨집
+            </TitlePrimaryTxt>
+            <TitleGrayTxt>
+              을 이용해보세요
+            </TitleGrayTxt>
+            </View>
+          </TextWrapper>
+        </UpperWrapper>
+        <DownerWrapper>
+          <KakaoButton navigation={navigation} />
+        </DownerWrapper>
+      </Wrapper>
     );
   };
 
@@ -181,7 +212,7 @@ export function HomeScreen({ navigation }) {
             userInfo &&
             (!userInfo.isPhoneAuthDone ||
               !userInfo.isUnivAuthDone ||
-              !userInfo.isNicknameSettingDone) && <LoginScreenComp />}
+              !userInfo.isNicknameSettingDone) && <LoginScreen />}
           {isLoggedIn &&
             userInfo &&
             userInfo.isPhoneAuthDone &&

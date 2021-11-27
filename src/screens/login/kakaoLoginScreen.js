@@ -70,6 +70,7 @@ const kakaoLoginScreen = ({navigation}) => {
           };
           setUserInfo(data);
           setIsLoggedIn(true);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           AsyncStorage.setItem('auth', JSON.stringify(data))
             .then(() => {
               navigation.goBack();
