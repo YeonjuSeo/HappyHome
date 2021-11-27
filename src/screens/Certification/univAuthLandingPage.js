@@ -1,13 +1,27 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Button, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
-import { GRAY0, GRAY1, GRAY4, PRIMARY, WHITE } from "../../styles/color";
+import { GRAY0, GRAY1, GRAY2, GRAY3, GRAY4, PRIMARY, WHITE } from "../../styles/color";
 import { Bold17 } from "../../styles/typography";
 import { useRecoilState } from "recoil-react-native";
 import { userInfoState } from "../../states/UserInfo";
 
 const UnivAuthLandingPage = ({ route, navigation }) => {
+  const [email, setEmail] = useState('');
+  const [secret, setSecret] = useState('');
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  const useInput = initialValue => {
+    const [value, setValue] = useState(initialValue)
+  
+    const onChange = text => {
+      setValue(text)
+    }
+  
+    return { value, onChange, setValue }
+  }
 
   const CertHeader = () => {
     return (
@@ -62,12 +76,31 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
       </View>
     );
   }
-  const ConfiremBtn = ({text}) => {
+  const SendBtn = ({text}) => {
     return (
-      <ConfirmBtnWrapper>
-        <TouchableOpacity>
+      <SendBtnWrapper isEmailSent={isEmailSent}>
+        <TouchableOpacity onPress={() => {
+          setTimeout(()=>{
+            setIsEmailSent(true)
+          }, 500)
+        }}>
           <TitleWhiteTxt>
             {text}
+          </TitleWhiteTxt>
+        </TouchableOpacity>
+      </SendBtnWrapper>
+    )
+  }
+  const ConfiremBtn = ({text}) => {
+    return (
+      <ConfirmBtnWrapper isConfirmed={isConfirmed}>
+        <TouchableOpacity onPress={() => {
+          setTimeout(()=>{
+            setIsConfirmed(true)
+          }, 1000)
+        }}>
+          <TitleWhiteTxt>
+            {!isConfirmed ? text : "인증 완료"}
           </TitleWhiteTxt>
         </TouchableOpacity>
       </ConfirmBtnWrapper>
@@ -99,13 +132,13 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
         <View>
           <View style={{flexDirection: "row", paddingTop: 20, paddingBottom: 10}}>
             <InputWrapperTop>
-              <TextInput placeholder={"이메일을 입력해주세요"}/>
+              <TextInput value={email} onChangeText={(value) =>setEmail(value)} placeholder={"이메일을 입력해주세요"}/>
             </InputWrapperTop>
-            <ConfiremBtn text={"발송"}/>
+            <SendBtn text={"발송"}/>
           </View>
           <View style={{flexDirection: "row"}}>
             <InputWrapperBottom>
-              <TextInput placeholder={"인증번호를 입력해주세요"}/>
+              <TextInput value={secret} onChangeText={(value) => setSecret(value)} placeholder={"인증번호를 입력해주세요"}/>
             </InputWrapperBottom>
             <ConfiremBtn text={"인증"}/>
           </View>
@@ -115,8 +148,14 @@ const UnivAuthLandingPage = ({ route, navigation }) => {
     </Wrapper>
   );
 }
+const SendBtnWrapper = styled.View`
+  background-color: ${props => !props.isEmailSent ? PRIMARY : GRAY3};
+  width: 100px;
+  padding: 15px 20px 15px 20px;
+  align-items: center;
+`;
 const ConfirmBtnWrapper = styled.View`
-  background-color: ${PRIMARY};
+  background-color: ${props => !props.isConfirmed ? PRIMARY : GRAY3};
   width: 100px;
   padding: 15px 20px 15px 20px;
   align-items: center;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Button, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 import { GRAY0, GRAY1, GRAY2, GRAY4, PRIMARY, WHITE } from "../../styles/color";
@@ -8,6 +8,7 @@ import { userInfoState } from "../../states/UserInfo";
 import axios from "axios";
 
 const NicknameSettingPage = ({ route, navigation }) => {
+  const [nickname, setNickname] = useState('');
 
   const CertHeader = () => {
     return (
@@ -86,7 +87,7 @@ const NicknameSettingPage = ({ route, navigation }) => {
         </TextWrapper>
         <View style={{flexDirection: "row", paddingTop: 20, paddingBottom: 10}}>
           <InputWrapper>
-            <TextInput placeholder={"최대 6글자"}/>
+            <TextInput value={nickname} onChangeText={(value) => setNickname(value)} placeholder={"최대 6글자"}/>
           </InputWrapper>
         </View>
         <View style={{alignItems: "center", paddingTop: 100}}>
