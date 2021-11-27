@@ -1,112 +1,222 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { ScrollView, View, Text, Image } from "react-native";
+import axios from "axios";
+import getEnvVars from "../../settings/environment";
+import { useRecoilValue } from "recoil-react-native";
+import { wishCoorState } from "../../states/User";
+import { userInfoState } from "../../states/UserInfo";
+import {
+  userGenderType,
+  userSmokingType,
+  roomFeatureType,
+  roomOptionType,
+} from "../Home/ItemOptionData";
 
+// components
+import { ScrollView, View, Text, Image } from "react-native";
 import LowerButton from "../../components/molecules/LowerButton";
 import Carousel from "../../components/molecules/Carousel";
-import ChatIcon from "../../assets/chat.png";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
+
+// assets
+import ChatIcon from "../../assets/chat.png";
+import WifiIcon from "../../assets/wifi.png";
+import LaundaryIcon from "../../assets/laundary.png";
+import MicrowaveIcon from "../../assets/microwave.png";
+import AirCondIcon from "../../assets/air-conditioner.png";
 
 // styles
 import {
   Medium12,
+  Medium13,
   Medium14,
   SemiBold17,
   SemiBold14,
+  SemiBold11,
   Bold16,
   Regular14,
 } from "../../styles/typography";
-import { PRIMARY, GRAY2, GRAY1, GRAY0 } from "../../styles/color";
+import { PRIMARY, GRAY4, GRAY2, GRAY1, GRAY0 } from "../../styles/color";
 
-export default function DetailsScreen({ navigation }) {
+const roomOptionIconData = {
+  와이파이: WifiIcon,
+  세탁기: LaundaryIcon,
+  전자렌지: MicrowaveIcon,
+  에어컨: AirCondIcon,
+};
+
+export default function DetailsScreen({ navigation, route }) {
+  const { apiUrl } = getEnvVars();
+  const [post, setPost] = useState();
+  let address;
+  const wishCoor = useRecoilValue(wishCoorState);
+  const userInfo = useRecoilValue(userInfoState);
+
+  useEffect(() => {
+    console.log("id: ", route.params.id);
+    axios
+      .post(`${apiUrl}/api/posts/postid`, {
+        xLocation: wishCoor.x,
+        yLocation: wishCoor.y,
+        post_uid: route.params.id,
+      })
+      .then((res) => {
+        const { data } = res.data;
+        setPost(data);
+        console.log(data);
+        address = data.location.split(" ");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
-    <View style={{ flex: 1 }}>
-      <HeaderTemplate
-        navigation={navigation}
-        title={""}
-        left={true}
-        color={"transparent"}
-        style={"position:absolute; z-index:3000; background-color:transparent;"}
-      />
-      <ScrollView>
-        <View>
-          <Carousel height={236} isIdxVisible={true} />
-          <UpperWrapper>
-            <SubTitle>서대문구 대현동 · 2일전</SubTitle>
-            <Title>대현동 역세권 원룸 겨울방학만 단기로 </Title>
-            <Distance>504m</Distance>
-            <Description>
-              근처 대학 학생인데 방학기간동안 시험준비로 지방 본가에 내려가게
-              되어 두 달동안 들어오실 분 구합니다. 방에 있는 세탁기랑 전자레인지
-              등 다 사용하셔도 되고요. 궁금하신 것 있으시면 메세지 남겨주세요.
-            </Description>
-          </UpperWrapper>
-          <LowerWrapper>
-            <LargeSectionTitle>거래정보</LargeSectionTitle>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>가격</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Price>W100,000/주</Price>
-                <Price style={{ paddingTop: 4, marginBottom: 8 }}>
-                  W300,000/월
-                </Price>
-                <Text style={[Regular14, { color: GRAY1 }]}>*관리비 포함</Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>전대 기간</SmallSectionTitle>
-            </SmallSectionWrapper>
-            <LargeSectionTitle>방 정보</LargeSectionTitle>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>주소</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Text style={Regular14}>서울시 서대문구 대현동 11-1</Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>매물 기본정보</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Text style={Regular14}>빌라</Text>
-                <Text style={Regular14}>지상층</Text>
-                <Text style={Regular14}>오픈형</Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>방 옵션</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Text style={Regular14}>아이콘과 옵션 상태가 들어갑니다</Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>특징</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Text style={Regular14}>해시태그 정보가 들어갑니다</Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-            <LargeSectionTitle>기타</LargeSectionTitle>
-            <SmallSectionWrapper>
-              <SmallSectionTitle>희망 전차인 유형</SmallSectionTitle>
-              <SmallBorderSectionContentWrapper>
-                <Text style={Regular14}>
-                  성별무관 흡연무관 버튼이 들어갑니다
-                </Text>
-              </SmallBorderSectionContentWrapper>
-            </SmallSectionWrapper>
-          </LowerWrapper>
+    <>
+      {post ? (
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+          <HeaderTemplate
+            navigation={navigation}
+            title={""}
+            left={true}
+            color={"transparent"}
+            style={
+              "position:absolute; z-index:3000; background-color:transparent;"
+            }
+          />
+          <ScrollView>
+            <View>
+              <Carousel height={236} isIdxVisible={true} data={post.pictures} />
+              <UpperWrapper>
+                <SubTitle>
+                  {post.location.split(" ")[1]} {post.location.split(" ")[2]} ·{" "}
+                  {new Date(post.createdAt * 1000).getMonth() + 1}월{" "}
+                  {new Date(post.createdAt * 1000).getDate()}일
+                </SubTitle>
+                <Title>{post.title} </Title>
+                <Distance>{post.distance}m</Distance>
+                <Description>{post.description}</Description>
+              </UpperWrapper>
+              <LowerWrapper>
+                <LargeSectionTitle>거래정보</LargeSectionTitle>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>가격</SmallSectionTitle>
+                  <SmallBorderSectionContentWrapper>
+                    <Price>W{post.rentalFeeWeek}0,000/주</Price>
+                    <Price style={{ paddingTop: 4, marginBottom: 8 }}>
+                      W{post.rentalFeeMonth}0,000/월
+                    </Price>
+                    <Text style={[Regular14, { color: GRAY1 }]}>
+                      *관리비 포함
+                    </Text>
+                  </SmallBorderSectionContentWrapper>
+                </SmallSectionWrapper>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>전대 기간</SmallSectionTitle>
+                  <SmallBorderSectionContentWrapper>
+                    <Text style={Regular14}>
+                      {new Date(post.residentStartDate * 1000).getMonth() + 1}월{" "}
+                      {new Date(post.residentStartDate * 1000).getDate()}일 ~{" "}
+                      {new Date(post.residentFinishDate * 1000).getMonth() + 1}
+                      월 {new Date(post.residentFinishDate * 1000).getDate()}일
+                    </Text>
+                  </SmallBorderSectionContentWrapper>
+                </SmallSectionWrapper>
+                <LargeSectionTitle>방 정보</LargeSectionTitle>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>주소</SmallSectionTitle>
+
+                  <SmallBorderSectionContentWrapper>
+                    <Text style={Regular14}>{post.location}</Text>
+                  </SmallBorderSectionContentWrapper>
+                </SmallSectionWrapper>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>매물 기본정보</SmallSectionTitle>
+                  <FlexRowWrapper>
+                    <BorderContentWrapper>
+                      <Text style={Regular14}>{post.buildingType}</Text>
+                    </BorderContentWrapper>
+                    <BorderContentWrapper>
+                      <Text style={Regular14}>{post.floors}</Text>
+                    </BorderContentWrapper>
+                    <BorderContentWrapper>
+                      <Text style={Regular14}>{post.roomType}</Text>
+                    </BorderContentWrapper>
+                  </FlexRowWrapper>
+                </SmallSectionWrapper>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>방 옵션</SmallSectionTitle>
+
+                  <FlexRowWrapper style={{ alignItems: "flex-end" }}>
+                    {post.options.map((el, i) => (
+                      <RoomOptionItemWrapper>
+                        {/* <Image
+                          style={{ height: 41 }}
+                          source={roomOptionIconData.roomOptionType[el]}
+                        /> */}
+                        <Text
+                          style={[SemiBold11, { color: PRIMARY, marginTop: 7 }]}
+                        >
+                          {roomOptionType[el]}
+                        </Text>
+                      </RoomOptionItemWrapper>
+                    ))}
+                  </FlexRowWrapper>
+                </SmallSectionWrapper>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>특징</SmallSectionTitle>
+                  <FlexRowWrapper>
+                    {post.features.map((item, i) => (
+                      <TagWrapper key={item}>
+                        <TagTxt>#{roomFeatureType[item]}</TagTxt>
+                      </TagWrapper>
+                    ))}
+                  </FlexRowWrapper>
+                </SmallSectionWrapper>
+                <LargeSectionTitle>기타</LargeSectionTitle>
+                <SmallSectionWrapper>
+                  <SmallSectionTitle>희망 전차인 유형</SmallSectionTitle>
+                  <View style={{ display: "flex", flexDirection: "row" }}>
+                    <BorderContentWrapper>
+                      <Text style={Regular14}>
+                        {userGenderType[post.gender]}
+                      </Text>
+                    </BorderContentWrapper>
+                    <BorderContentWrapper>
+                      <Text style={Regular14}>
+                        {userSmokingType[post.smoking]}
+                      </Text>
+                    </BorderContentWrapper>
+                  </View>
+                </SmallSectionWrapper>
+              </LowerWrapper>
+            </View>
+          </ScrollView>
+          <FixedFooter>
+            <Text style={Medium14}>
+              {post.nickname} {post.name}
+            </Text>
+            <Text style={[Medium14, { color: GRAY1, marginTop: 9 }]}>
+              전대인
+            </Text>
+            {userInfo.uid == route.params.id && (
+              <LowerButton
+                onPress={() => {
+                  navigation.navigate("ChattingRoom", {
+                    owner: {
+                      nickname: post.nickname,
+                      name: post.name,
+                      id: route.params.id,
+                    },
+                  });
+                }}
+                txt="채팅 보내기"
+                icon={ChatIcon}
+              />
+            )}
+          </FixedFooter>
         </View>
-      </ScrollView>
-      <FixedFooter>
-        <Text style={Medium14}>대현동새내기 김지원</Text>
-        <Text style={[Medium14, { color: GRAY1, marginTop: 9 }]}>전대인</Text>
-        <LowerButton
-          onPress={() => {
-            navigation.navigate("ChattingRoom");
-          }}
-          txt="채팅 보내기"
-          icon={ChatIcon}
-        />
-      </FixedFooter>
-    </View>
+      ) : null}
+    </>
   );
 }
 const UpperWrapper = styled.View`
@@ -117,7 +227,11 @@ const UpperWrapper = styled.View`
 const LowerWrapper = styled.View`
   background-color: white;
   padding: 25px 16px 0 16px;
-  margin-bottom: 120px;
+`;
+const FlexRowWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 const LargeSectionTitle = styled.Text`
   ${SemiBold17};
@@ -128,7 +242,7 @@ const SmallSectionWrapper = styled.View`
 `;
 const SmallSectionTitle = styled.Text`
   ${SemiBold14};
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 const SmallBorderSectionContentWrapper = styled.View`
   display: flex;
@@ -137,6 +251,32 @@ const SmallBorderSectionContentWrapper = styled.View`
   padding: 13px 0 14px 0;
   border-width: 1px;
   border-color: ${GRAY0};
+`;
+const BorderContentWrapper = styled.View`
+  height: 44px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border-width: 1px;
+  border-color: ${GRAY0};
+`;
+const RoomOptionItemWrapper = styled.View`
+  align-items: center;
+  margin: 10px 16px 0 16px;
+  overflow: visible;
+`;
+const TagWrapper = styled.View`
+  align-self: flex-start;
+  height: 28px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f1f1;
+  margin: 2px 2px;
+  padding: 6px;
+`;
+const TagTxt = styled.Text`
+  ${Medium13};
+  color: ${GRAY4};
 `;
 const SubTitle = styled.Text`
   ${Medium12}
