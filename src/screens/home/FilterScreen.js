@@ -96,7 +96,7 @@ export default function FilterScreen({ navigation }) {
             <BorderButton
               onPress={() => {
                 setShowDatePicker({ start: false, finish: true });
-                setShowDatePicker({ start: false, finish: false });
+                //setShowDatePicker({ start: false, finish: false });
               }}
               onCancel={() =>
                 setShowDatePicker({ start: false, finish: false })
@@ -114,8 +114,10 @@ export default function FilterScreen({ navigation }) {
               onCancel={() =>
                 setShowDatePicker({ start: false, finish: false })
               }
-              onConfirm={(value) =>
+              onConfirm={(value) =>{
                 setDate({ startDate: date.startDate, finishDate: value })
+                setShowDatePicker({ start: false, finish: false })
+                }
               }
             />
             {/* </FlexRowCenterWrppaer> */}

@@ -40,7 +40,7 @@ export default function ChattingRoom({ navigation, route }) {
       <MiniPostCard
         navigation={navigation}
         // !== 으로 수정하기
-        showComplete={route.params.owner.id !== userInfo.uid}
+        showComplete={route.params.owner.id == userInfo.uid}
         id={route.params.owner.id}
         setShowModal={setShowModal}
       />
