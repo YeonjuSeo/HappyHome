@@ -68,18 +68,18 @@ export default function HomeComp({ navigation }) {
   }
   useFocusEffect(() => {
     axios
-        .post(`${apiUrl}/api/posts/created`, {
-          xLocation: wishCoor.x,
-          yLocation: wishCoor.y,
-        })
-        .then((res) => {
-          const { data } = res.data;
-          setPostObj(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  })
+      .post(`${apiUrl}/api/posts/created`, {
+        xLocation: wishCoor.x,
+        yLocation: wishCoor.y,
+      })
+      .then((res) => {
+        const { data } = res.data;
+        setPostObj(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   useEffect(() => {
     orderRequest(isRecentOrder);
@@ -115,7 +115,7 @@ export default function HomeComp({ navigation }) {
             }}
             onChangeText={(value) => {
               setKeyword(value);
-              console.log(value);
+              //console.log(value);
             }}
             value={keyword}
             clearIcon={false}
@@ -139,6 +139,7 @@ export default function HomeComp({ navigation }) {
             <Text> | </Text>
             <TouchableOpacity
               onPress={() => {
+                setIsFiltered(true);
                 navigation.navigate("Filter");
               }}
             >

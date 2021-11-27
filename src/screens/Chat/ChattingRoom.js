@@ -6,15 +6,14 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 
 import { SemiBold14, Regular14 } from "../../styles/typography";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 
-import { useRecoilValue } from "recoil-react-native";
+import { useRecoilValue, useRecoilState } from "recoil-react-native";
 import { userInfoState } from "../../states/UserInfo";
-
 import { BubbleYou, BubbleMe, ImgBubble } from "../../components/atoms/Bubble";
 import DateMarker from "../../components/atoms/DateMarker";
 import ChatInput from "../../components/molecules/ChatInput";
@@ -40,7 +39,8 @@ export default function ChattingRoom({ navigation, route }) {
       />
       <MiniPostCard
         navigation={navigation}
-        showComplete={route.params.owner.id == userInfo.uid}
+        // !== 으로 수정하기
+        showComplete={route.params.owner.id !== userInfo.uid}
         id={route.params.owner.id}
         setShowModal={setShowModal}
       />
@@ -95,6 +95,7 @@ export default function ChattingRoom({ navigation, route }) {
                   .patch(`${apiUrl}/api/posts/dealt`)
                   .then((res) => {
                     console.log(res);
+                    route.params.setDealt(true);
                     setShowModal(false);
                   })
                   .catch((err) => {

@@ -5,11 +5,18 @@ import styled from "styled-components";
 import { GRAY0, GRAY1 } from "../../styles/color";
 import { SemiBold13, SemiBold14, Medium12 } from "../../styles/typography";
 
-export default function ChatCard({ navigation, title, member, recentMsg }) {
+export default function ChatCard({
+  navigation,
+  title,
+  member,
+  recentMsg,
+  setDealt,
+}) {
   return (
     <Wrapper
       onPress={() => {
         navigation.navigate("ChattingRoom", {
+          setDealt: setDealt,
           owner: {
             nickname: member.nickname,
             name: member.name,
