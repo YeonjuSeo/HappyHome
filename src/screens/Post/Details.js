@@ -198,7 +198,7 @@ export default function DetailsScreen({ navigation, route }) {
             <Text style={[Medium14, { color: GRAY1, marginTop: 9 }]}>
               전대인
             </Text>
-            {userInfo.uid == route.params.id && (
+            {userInfo.uid !== route.params.id && (
               <LowerButton
                 onPress={() => {
                   navigation.navigate("ChattingRoom", {
