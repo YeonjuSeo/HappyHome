@@ -190,7 +190,7 @@ export default function FilterScreen({ navigation }) {
           </RowBetweenWrapper>
 
           <ButtonWrapper>
-            {roomFeatureType?.map((type) => (
+            {roomFeatureType?.map((type,i) => (
               <SelectButton
                 flag={1}
                 onPress={() => {

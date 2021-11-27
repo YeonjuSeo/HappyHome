@@ -13,6 +13,7 @@ import getEnvVars from "../../settings/environment";
 import { userInfoState } from "../../states/UserInfo";
 import { useRecoilValue, useRecoilState } from "recoil-react-native";
 import { wishCoorState } from "../../states/User";
+import { useFocusEffect } from "@react-navigation/core";
 
 export default function MyPageScreen({ navigation }) {
   const userInfo = useRecoilValue(userInfoState);
@@ -20,6 +21,23 @@ export default function MyPageScreen({ navigation }) {
   const [showModal, setShowModal] = useState(false);
   const wishCoor = useRecoilValue(wishCoorState);
   const [dealt, setDealt] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      axios.post(
+        `${apiUrl}/api/posts/postid`,
+        {
+          xLocation:wishCoor.xLocation,
+          yLocation:wishCoor.yLocation,
+          post_uid:userInfo.uid,
+        }
+      )
+      .then((res) => {
+          console.log(res.data.data.isdealt);
+          setDealt(res.data.data.isdealt)
+      })
+    })
+  )
 
   return (
     <Wrapper>
@@ -33,12 +51,12 @@ export default function MyPageScreen({ navigation }) {
       <UserInfoWrapper>
         <UserInfoName>
           {userInfo.isNicknameSettingDone && userInfo.nickname
-            ? "꼬미집사"
-            : "꼬미집사"}{" "}
-          {userInfo.name ? "김승우" : "김승우"}
+            ? "쥬쓰"
+            : "쥬쓰"}{" "}
+          {userInfo.name ? "서연주" : "서연주"}
         </UserInfoName>
         <UserInfoEmail>
-          {userInfo.email ? userInfo.email : "seungwookim@kakao.com"}
+          {userInfo.email ? userInfo.email : "kados22@naver.com"}
         </UserInfoEmail>
       </UserInfoWrapper>
 

@@ -32,7 +32,7 @@ export function ImgBubble({ from, now }) {
   return (
     <ImgWrapper from={from}>
       <ImgBubbleWrapper>
-        <Image source={FullLogoImg} />
+        <Image source={require("../../assets/img1.png")} />
       </ImgBubbleWrapper>
       <Moment now={now} from={from} />
     </ImgWrapper>

@@ -35,6 +35,7 @@ export default function MiniPostCard({
       .then((res) => {
         const { data } = res.data;
         setPost(data);
+        console.log(data.isDealt)
         setDealt(data.isDealt);
       })
       .catch((err) => {
@@ -90,11 +91,11 @@ const PostInfoWrapper = styled.TouchableOpacity`
 `;
 const PostTitle = styled.Text`
   ${SemiBold14}
-  color: ${(props) => (props.dealt ? "#b7b7b7" : "black")}
+  color: ${(props) => (props.dealt ? "#b7b7b7;" : "black;")}
 `;
 const PostPrice = styled.Text`
   ${Bold14};
-  color: ${(props) => (props.dealt ? "#b7b7b7" : PRIMARY)}
+  color: ${(props) => (props.dealt ? "#b7b7b7;" : PRIMARY)};
   margin: 8px 0;
 `;
 const CompleteButton = styled.TouchableOpacity`

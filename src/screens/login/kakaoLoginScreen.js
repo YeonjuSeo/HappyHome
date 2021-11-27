@@ -23,7 +23,7 @@ const kakaoLoginScreen = ({navigation}) => {
 
     if (condition != -1) {
         const request_code = data.substring(condition + exp.length);
-        //console.log("access code : " + request_code);
+        console.log("access code : " + request_code);
         requestToken(request_code);
     }
   }
@@ -43,7 +43,7 @@ const kakaoLoginScreen = ({navigation}) => {
         },
     }).then((response) => {
         kakaoToken = response.data.access_token;
-        console.log("access token : " + kakaoToken);
+        console.log("!!access token : " + kakaoToken);
         //setAuth(returnValue)
         //AsyncStorage.setItem("token", returnValue)
         //  .then(() => {

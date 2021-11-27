@@ -73,7 +73,7 @@ export function HomeScreen({ navigation }) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const initializeUserInfo = async () => {
-    await AsyncStorage.removeItem("auth");
+    //await AsyncStorage.removeItem("auth");
     const ud = await AsyncStorage.getItem("auth");
     if (!ud) {
       //토큰이 없음
