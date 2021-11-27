@@ -198,7 +198,8 @@ export default function WritePostScreen({ navigation }) {
         <View>
           <SectionTitle>방 정보</SectionTitle>
           <SmallSectionTitle>주소</SmallSectionTitle>
-          <TouchableOpacity
+          <BorderButton
+            style={{ width: "100%", alignItems: "flex-start", paddingLeft: 16 }}
             onPress={() => {
               navigation.navigate("LocationSearch", {
                 prev: "WritePost",
@@ -207,8 +208,8 @@ export default function WritePostScreen({ navigation }) {
               });
             }}
           >
-            <Text>{location}</Text>
-          </TouchableOpacity>
+            <BorderButtonTxt>{location}</BorderButtonTxt>
+          </BorderButton>
           <SmallSectionTitle>매물 기본정보</SmallSectionTitle>
 
           <SmallSectionWrapper>
@@ -347,7 +348,6 @@ export default function WritePostScreen({ navigation }) {
           //       console.log(err);
           //     });
           // } else alert("빈 칸을 채워주세요");
-
         }}
       >
         <FooterTxt>작성완료</FooterTxt>
@@ -400,11 +400,12 @@ const BorderButtonTxt = styled.Text`
 
 const SectionTitle = styled.Text`
   ${SemiBold17};
+  margin-top: 65px;
 `;
 const SmallSectionTitle = styled.Text`
   ${SemiBold14};
-  margin-top: 28px;
-  margin-bottom: 9px;
+  margin-top: 32px;
+  margin-bottom: 13px;
 `;
 const SmallSectionWrapper = styled.View`
   flex: 3;
