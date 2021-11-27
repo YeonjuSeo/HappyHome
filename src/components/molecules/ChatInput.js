@@ -10,7 +10,7 @@ export default function ChatInput({ setInput }) {
   const [content, setContent] = useState("");
   return (
     <Wrapper>
-      <Image source={CamIcon} />
+      <Image style={{ width: 26, height: 26 }} source={CamIcon} />
       <ChatInputBox
         value={content}
         onChangeText={(text) => {

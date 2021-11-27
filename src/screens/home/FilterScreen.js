@@ -20,7 +20,7 @@ import {
   ScrollView,
   Text,
   View,
-  Button,
+  LogBox,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -54,6 +54,7 @@ export default function FilterScreen({ navigation }) {
   const [smoking, setSmoking] = useState();
   // const [imgArr, setImgArr] = useState([]);
   const { apiUrl } = getEnvVars();
+  LogBox.ignoreAllLogs(true);
   return (
     <View style={{ flex: 1 }}>
       <HeaderTemplate navigation={navigation} title={"필터"} left={true} />
@@ -216,9 +217,7 @@ export default function FilterScreen({ navigation }) {
           // result.options = [myRoomOption];
 
           // console.log("result:", result);
-          navigation.navigate("Result", {
-            keyword: "원룸",
-          });
+          navigation.navigate("Home");
         }}
       >
         <FooterTxt>설정완료</FooterTxt>
