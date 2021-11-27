@@ -11,6 +11,7 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import styled from "styled-components";
 import { ImageBrowser } from "expo-image-picker-multiple";
@@ -47,7 +48,7 @@ export default function WritePostScreen({ navigation }) {
   const [description, setDescription] = useState();
   const [location, setLocation] = useState("동 또는 도로명까지 입력해주세요");
   const [coor, setCoor] = useState();
-  const [pictures, setPictures] = useState([]);
+  const [pictures, setPictures] = useState();
   const [rentalFeeMonth, setRentalFeeMonth] = useState();
   const [rentalFeeWeek, setRentalFeeWeek] = useState();
   const [myBuildingType, setMyBuildingType] = useState();
@@ -70,6 +71,9 @@ export default function WritePostScreen({ navigation }) {
   const [isAllFilled, SetIsAllFilled] = useState(true);
   const sampleArr = ["hi", "my", "name"];
 
+  // console.disableYellowBox = true;
+  LogBox.ignoreAllLogs(true);
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <HeaderTemplate title="매물 작성" navigation={navigation} left={true} />
@@ -84,16 +88,18 @@ export default function WritePostScreen({ navigation }) {
               navigation.navigate("UploadImg", { setPictures: setPictures });
             }}
           >
-            <Image source={CamIcon} />
+            <Image style={{ width: 26, height: 26 }} source={CamIcon} />
           </UploadImgWrapper>
+          {pictures && (
+            <PreviewImg
+              source={{
+                uri: "https://images.pexels.com/photos/6636309/pexels-photo-6636309.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+              }}
+            />
+          )}
         </View>
 
         <View>
-          {/* {pictures ? (
-            pictures.map((img, i) => <Text key={i}>{img}</Text>)
-          ) : (
-            <Text>아직 없음</Text>
-          )} */}
           <SmallSectionTitle>제목</SmallSectionTitle>
           <StyledTextinput
             placeholder="글 제목을 입력해주세요.(최대 20자)"
@@ -357,9 +363,10 @@ const UploadImgWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
-const PreviewImg = styled.Text`
+const PreviewImg = styled.Image`
   height: 77px;
   width: 92px;
+  margin: 0 8px;
 `;
 const InputWrapper = styled.ScrollView`
   padding: 0 16px;

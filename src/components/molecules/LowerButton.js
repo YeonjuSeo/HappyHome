@@ -4,7 +4,7 @@ import { Image } from "react-native";
 export default function LowerButton({ onPress, txt, icon }) {
   return (
     <PostButton onPress={onPress}>
-      <Image style={{ marginBottom: 7 }} source={icon} />
+      <Image style={{ marginBottom: 7, height: 24, width: 24 }} source={icon} />
       <PostButtonText>{txt}</PostButtonText>
     </PostButton>
   );

@@ -40,7 +40,7 @@ export default function ResultScreen({ navigation, route }) {
               navigation.navigate("Filter");
             }}
           >
-            <Image source={FilterIcon} />
+            <Image style={{ width: 22, height: 22 }} source={FilterIcon} />
           </TouchableOpacity>
         }
       />
