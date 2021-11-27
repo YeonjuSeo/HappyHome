@@ -59,11 +59,15 @@ export default function MyPageScreen({ navigation }) {
       <SectionWrapper>
         <SectionTitle>채팅</SectionTitle>
         <View>
-          {userInfo.uid == "kakao:1980885517" && (
+          {userInfo.uid !== "kakao:1980885517" && (
             <ChatCard
               navigation={navigation}
               title="신촌 근처 방 내놓아요"
-              member={{ nickname: "역마낀", name: "최지민", id: "kakao:27" }}
+              member={{
+                nickname: "역마낀",
+                name: "최지민",
+                id: "kakao:1980885517",
+              }}
               recentMsg="메시지"
             />
           )}
