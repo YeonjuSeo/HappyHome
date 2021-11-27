@@ -21,6 +21,7 @@ import { SearchButton } from "../../components/atoms/SearchBar";
 import { SearchBar } from "react-native-elements";
 import bgImg1 from "../../assets/splashBG1.png";
 import bgImg2 from "../../assets/splashBG2.png";
+import { useFocusEffect } from "@react-navigation/core";
 
 const bannerData = [
   "https://postfiles.pstatic.net/MjAyMTExMjZfODAg/MDAxNjM3OTIzOTc4MjE1.qOyAYkSMSFZ7z0JmGnSSE-yaabDNe3W2GoHUzN7RkfIg.Rqn2nZPvPV6yVrA2KvS2oguv8jRo0KDufyNp8LENlAkg.PNG.kados22/banner.png?type=w773",
@@ -65,6 +66,20 @@ export default function HomeComp({ navigation }) {
         });
     }
   }
+  useFocusEffect(() => {
+    axios
+        .post(`${apiUrl}/api/posts/created`, {
+          xLocation: wishCoor.x,
+          yLocation: wishCoor.y,
+        })
+        .then((res) => {
+          const { data } = res.data;
+          setPostObj(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  })
 
   useEffect(() => {
     orderRequest(isRecentOrder);
@@ -124,6 +139,9 @@ export default function HomeComp({ navigation }) {
             <Text> | </Text>
             <TouchableOpacity
               onPress={() => {
+                navigation.navigate("Filter");
+              }}
+            >
               <Image style={{ width: 22, height: 22 }} source={FilterIcon} />
             </TouchableOpacity>
           </SmallMenuWrapper>

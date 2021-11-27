@@ -6,9 +6,10 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Image,
+  Alert
 } from "react-native";
 
-import { SemiBold14, Bold14 } from "../../styles/typography";
+import { SemiBold14, Regular14 } from "../../styles/typography";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 
 import { useRecoilValue } from "recoil-react-native";
@@ -19,11 +20,16 @@ import DateMarker from "../../components/atoms/DateMarker";
 import ChatInput from "../../components/molecules/ChatInput";
 import MiniPostCard from "../../components/molecules/MiniPostCard";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
+import axios from "axios";
+import getEnvVars from "../../settings/environment";
+
+const { apiUrl } = getEnvVars();
 
 export default function ChattingRoom({ navigation, route }) {
   const date = new Date();
   const userInfo = useRecoilValue(userInfoState);
   const [input, setInput] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Wrapper>
@@ -36,6 +42,7 @@ export default function ChattingRoom({ navigation, route }) {
         navigation={navigation}
         showComplete={route.params.owner.id == userInfo.uid}
         id={route.params.owner.id}
+        setShowModal={setShowModal}
       />
 
       <KeyboardAvoidingView
@@ -66,6 +73,41 @@ export default function ChattingRoom({ navigation, route }) {
         </ChatView>
         <ChatInput setInput={setInput} />
       </KeyboardAvoidingView>
+      {showModal && (
+        <ModalWrapper>
+          <ModalContentWrapper>
+            <ModalTxt>반드시 전대차 계약서를 작성해 안전하게</ModalTxt>
+            <ModalTxt>거래를 진행해주세요. 거래를 완료하시겠습니까?</ModalTxt>
+          </ModalContentWrapper>
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <ModalButton
+              type="cancel"
+              onPress={() => {
+                setShowModal(false);
+              }}
+            >
+              <ModalButtonTxt>취소</ModalButtonTxt>
+            </ModalButton>
+            <ModalButton
+              onPress={() => {
+                Alert.alert("거래완료되었습니다");
+                axios
+                  .patch(`${apiUrl}/api/posts/dealt`)
+                  .then((res) => {
+                    console.log(res);
+                    setShowModal(false);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+              type="ok"
+            >
+              <ModalButtonTxt>확인</ModalButtonTxt>
+            </ModalButton>
+          </View>
+        </ModalWrapper>
+      )}
     </Wrapper>
   );
 }
@@ -78,4 +120,37 @@ const Wrapper = styled.View`
 const ChatView = styled.ScrollView`
   background-color: white;
   padding: 0 11px;
+`;
+const ModalWrapper = styled.View`
+  width: 90%;
+  height: 163px;
+  border: 1px solid ${GRAY0};
+  position: absolute;
+  background-color: white;
+  z-index: 3000;
+  justify-content: space-between;
+  align-self: center;
+  top: 350px;
+`;
+const ModalContentWrapper = styled.View`
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  height: 112px;
+  padding: 0 24px;
+`;
+const ModalTxt = styled.Text`
+  ${Regular14};
+`;
+const ModalButton = styled.TouchableOpacity`
+  width: 50%;
+  height: 51px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) =>
+    props.type == "ok" ? `${PRIMARY}` : "#b4b4b4"};
+`;
+const ModalButtonTxt = styled.Text`
+  ${SemiBold14};
+  color: white;
 `;

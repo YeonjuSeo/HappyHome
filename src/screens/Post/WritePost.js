@@ -303,8 +303,8 @@ export default function WritePostScreen({ navigation }) {
           result.title = title;
           result.description = description;
           result.location = location;
-          // result.xLocation = coor.x;
-          // result.yLocation = coor.y;
+          result.xLocation = coor.x;
+          result.yLocation = coor.y;
           result.rentalFeeMonth = rentalFeeMonth;
           result.rentalFeeWeek = rentalFeeWeek;
           result.buildingType = myBuildingType;
@@ -325,6 +325,7 @@ export default function WritePostScreen({ navigation }) {
             .post(`${apiUrl}/api/posts`, result)
             .then((res) => {
               //console.log(res);
+              navigation.navigate("Home");
             })
             .catch((err) => {
               console.log(err);
@@ -347,7 +348,6 @@ export default function WritePostScreen({ navigation }) {
           //     });
           // } else alert("빈 칸을 채워주세요");
 
-          navigation.navigate("Home");
         }}
       >
         <FooterTxt>작성완료</FooterTxt>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -20,11 +20,14 @@ import getEnvVars from "../../settings/environment";
 import { userInfoState } from "../../states/UserInfo";
 import { useRecoilValue } from "recoil-react-native";
 import { wishCoorState } from "../../states/User";
+import { useFocusEffect } from "@react-navigation/core";
+
 export default function MyPageScreen({ navigation }) {
   const userInfo = useRecoilValue(userInfoState);
   const { apiUrl } = getEnvVars();
   const [showModal, setShowModal] = useState(false);
   const wishCoor = useRecoilValue(wishCoorState);
+
   return (
     <Wrapper>
       <HeaderTemplate
@@ -36,9 +39,9 @@ export default function MyPageScreen({ navigation }) {
       />
       <UserInfoWrapper>
         <UserInfoName>
-          {userInfo.isNicknameSettingDone && userInfo.nickname} {userInfo.name}
+          {userInfo.isNicknameSettingDone && userInfo.nickname ? "꼬미집사": "꼬미집사"} {userInfo.name ? "김승우" : "김승우"}
         </UserInfoName>
-        <UserInfoEmail>{userInfo.email}</UserInfoEmail>
+        <UserInfoEmail>{userInfo.email ? userInfo.email : "seungwookim@kakao.com"}</UserInfoEmail>
       </UserInfoWrapper>
 
       <SectionWrapper>
@@ -59,7 +62,7 @@ export default function MyPageScreen({ navigation }) {
       <SectionWrapper>
         <SectionTitle>채팅</SectionTitle>
         <View>
-          {userInfo.uid !== "kakao:1980885517" && (
+          {userInfo.uid == "kakao:1980885517" && (
             <ChatCard
               navigation={navigation}
               title="신촌 근처 방 내놓아요"
