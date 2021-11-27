@@ -32,6 +32,7 @@ export default function HomeComp({ navigation }) {
   const [keyword, setKeyword] = useState();
   const [isRecentOrder, setIsRecentOrder] = useState(true);
   const [postObj, setPostObj] = useState();
+  const [isFiltered, setIsFiltered] = useState(false);
 
   const { apiUrl } = getEnvVars();
 
@@ -111,6 +112,7 @@ export default function HomeComp({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 const now = !isRecentOrder;
+                setIsFiltered(false);
                 setIsRecentOrder(!isRecentOrder);
               }}
             >
@@ -122,14 +124,16 @@ export default function HomeComp({ navigation }) {
             <Text> | </Text>
             <TouchableOpacity
               onPress={() => {
+                setIsFiltered(true);
                 navigation.navigate("Filter");
               }}
             >
-              <Image source={FilterIcon} />
+              <Image style={{ width: 22, height: 22 }} source={FilterIcon} />
             </TouchableOpacity>
           </SmallMenuWrapper>
           <View>
             {postObj &&
+              !isFiltered &&
               postObj.map((item, i) => (
                 <PostCard
                   key={item.title}
@@ -137,6 +141,12 @@ export default function HomeComp({ navigation }) {
                   post={item}
                 />
               ))}
+            {postObj &&
+              isFiltered &&
+              postObj.map((post, i) => {
+                if (i < 6 && !post.isDealt)
+                  return <PostCard navigation={navigation} post={post} />;
+              })}
           </View>
         </PaddingWrapper>
       </ScrollView>
