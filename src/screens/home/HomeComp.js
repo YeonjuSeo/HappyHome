@@ -124,10 +124,6 @@ export default function HomeComp({ navigation }) {
             <Text> | </Text>
             <TouchableOpacity
               onPress={() => {
-                setIsFiltered(true);
-                navigation.navigate("Filter");
-              }}
-            >
               <Image style={{ width: 22, height: 22 }} source={FilterIcon} />
             </TouchableOpacity>
           </SmallMenuWrapper>
