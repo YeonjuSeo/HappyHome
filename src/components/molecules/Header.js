@@ -11,7 +11,10 @@ export default function Header({ navigation, addr }) {
       <View
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <Image style={{ marginRight: 4 }} source={MarkerIcon} />
+        <Image
+          style={{ marginRight: 4, width: 24, height: 24 }}
+          source={MarkerIcon}
+        />
         <HeaderTitleWrapper
           onPress={() =>
             navigation.navigate("LocationSearch", {
