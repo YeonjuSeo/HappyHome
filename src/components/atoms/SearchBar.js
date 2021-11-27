@@ -3,11 +3,11 @@ import { Image, TouchableOpacity } from "react-native";
 import { SearchBar } from "react-native-elements";
 import SearchIcon from "../../assets/search.png";
 
-export function SearchButton({ navigation }) {
+export function SearchButton({ navigation, keyword }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Result");
+        navigation.navigate("Result", { keyword: keyword });
       }}
     >
       <Image source={SearchIcon} style={{ width: 26, height: 26 }} />
