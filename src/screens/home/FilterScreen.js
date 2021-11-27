@@ -96,7 +96,7 @@ export default function FilterScreen({ navigation }) {
             <BorderButton
               onPress={() => {
                 setShowDatePicker({ start: false, finish: true });
-                setShowDatePicker({ start: false, finish: false });
+                //setShowDatePicker({ start: false, finish: false });
               }}
               onCancel={() =>
                 setShowDatePicker({ start: false, finish: false })
@@ -114,8 +114,10 @@ export default function FilterScreen({ navigation }) {
               onCancel={() =>
                 setShowDatePicker({ start: false, finish: false })
               }
-              onConfirm={(value) =>
+              onConfirm={(value) =>{
                 setDate({ startDate: date.startDate, finishDate: value })
+                setShowDatePicker({ start: false, finish: false })
+                }
               }
             />
             {/* </FlexRowCenterWrppaer> */}
@@ -123,18 +125,18 @@ export default function FilterScreen({ navigation }) {
         </SectionWrapper>
         <SectionWrapper>
           <RowBetweenWrapper>
-            <Title>가격</Title>
-            <Title style={{ color: PRIMARY }}>단위: 만 원</Title>
+            <Title>가격(주당)</Title>
+            <Title style={{ color: PRIMARY }}>단위:만 원</Title>
           </RowBetweenWrapper>
           <RowBetweenWrapper>
             <StyledTextinput
-              placeholder={"10"}
+              placeholder={"1"}
               onChangeText={setRentalFeeMin}
               placeholderTextColor={GRAY1}
             />
             <Text style={{ marginLeft: 20, marginRight: 20 }}>~</Text>
             <StyledTextinput
-              placeholder={"50"}
+              placeholder={"20"}
               onChangeText={setRentalFeeMax}
               placeholderTextColor={GRAY1}
             />
@@ -188,7 +190,7 @@ export default function FilterScreen({ navigation }) {
           </RowBetweenWrapper>
 
           <ButtonWrapper>
-            {roomFeatureType?.map((type) => (
+            {roomFeatureType?.map((type,i) => (
               <SelectButton
                 flag={1}
                 onPress={() => {
@@ -283,6 +285,7 @@ const StyledTextinput = styled.TextInput`
   padding: 0 16px;
   flex: 1;
   margin: 5px 0;
+  text-align: center;
 `;
 const NoticeTxt = styled.Text`
   ${Regular12};

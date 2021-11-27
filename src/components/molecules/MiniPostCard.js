@@ -17,6 +17,8 @@ export default function MiniPostCard({
   navigation,
   id,
   setShowModal,
+  dealt,
+  setDealt,
 }) {
   const userInfo = useRecoilValue(userInfoState);
   const { apiUrl } = getEnvVars();
@@ -33,12 +35,14 @@ export default function MiniPostCard({
       .then((res) => {
         const { data } = res.data;
         setPost(data);
-        address = data.location.split(" ");
+        console.log(data.isDealt)
+        setDealt(data.isDealt);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   return (
     <View>
       {post && (
@@ -50,10 +54,10 @@ export default function MiniPostCard({
           }}
         >
           <View style={{ width: 222 }}>
-            <PostTitle isDealt={post.isDealt} numberOfLines={1} ellipsizeMode="tail">
+            <PostTitle isDealt={dealt} numberOfLines={1} ellipsizeMode="tail">
               {post.title}
             </PostTitle>
-            <PostPrice isDealt={post.isDealt}>W{post.rentalFeeWeek}0,000/주</PostPrice>
+            <PostPrice isDealt={dealt}>W{post.rentalFeeWeek}0,000/주</PostPrice>
             {showComplete && (
               <CompleteButton
                 onPress={() => {
@@ -87,11 +91,11 @@ const PostInfoWrapper = styled.TouchableOpacity`
 `;
 const PostTitle = styled.Text`
   ${SemiBold14}
-  color: ${(props) => props.isDealt ? "#b7b7b7" : "black"}
+  color: ${(props) => (props.dealt ? "#b7b7b7;" : "black;")}
 `;
 const PostPrice = styled.Text`
   ${Bold14};
-  color: ${(props) => props.isDealt ? "#b7b7b7" : PRIMARY}
+  color: ${(props) => (props.dealt ? "#b7b7b7;" : PRIMARY)};
   margin: 8px 0;
 `;
 const CompleteButton = styled.TouchableOpacity`

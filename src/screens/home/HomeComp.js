@@ -66,9 +66,25 @@ export default function HomeComp({ navigation }) {
         });
     }
   }
-  useFocusEffect(() => {
-    axios
-        .post(`${apiUrl}/api/posts/created`, {
+  useFocusEffect(
+    React.useCallback(() => {
+      if(isRecentOrder){
+        axios
+          .post(`${apiUrl}/api/posts/created`, {
+            xLocation: wishCoor.x,
+            yLocation: wishCoor.y,
+          })
+          .then((res) => {
+            const { data } = res.data;
+            setPostObj(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      else{
+        axios
+        .post(`${apiUrl}/api/posts/distance`, {
           xLocation: wishCoor.x,
           yLocation: wishCoor.y,
         })
@@ -79,8 +95,9 @@ export default function HomeComp({ navigation }) {
         .catch((err) => {
           console.log(err);
         });
-  })
-
+      }
+    },[])
+  );
   useEffect(() => {
     orderRequest(isRecentOrder);
   }, [isRecentOrder]);
@@ -115,7 +132,7 @@ export default function HomeComp({ navigation }) {
             }}
             onChangeText={(value) => {
               setKeyword(value);
-              console.log(value);
+              //console.log(value);
             }}
             value={keyword}
             clearIcon={false}
@@ -139,6 +156,7 @@ export default function HomeComp({ navigation }) {
             <Text> | </Text>
             <TouchableOpacity
               onPress={() => {
+                setIsFiltered(true);
                 navigation.navigate("Filter");
               }}
             >

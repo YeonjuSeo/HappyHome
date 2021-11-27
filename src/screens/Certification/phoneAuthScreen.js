@@ -39,8 +39,6 @@ export function phoneAuthScreen({ navigation }) {
   const data = {
     merchant_uid: `mid_${new Date().getTime()}`,
     company: "아임포트",
-    name: "김승우",
-    phone: "01059555425",
     min_age: "11",
   };
   const userCode = getUserCode("danal", "", "certification");

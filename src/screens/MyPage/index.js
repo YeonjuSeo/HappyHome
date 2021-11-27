@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import {
-  ScrollView,
-  View,
-  Button,
-  Text,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import { View } from "react-native";
 import { SemiBold17, SemiBold14, Regular14 } from "../../styles/typography";
 
 import MiniPostCard from "../../components/molecules/MiniPostCard";
@@ -18,7 +11,7 @@ import { PRIMARY, GRAY0 } from "../../styles/color";
 
 import getEnvVars from "../../settings/environment";
 import { userInfoState } from "../../states/UserInfo";
-import { useRecoilValue } from "recoil-react-native";
+import { useRecoilValue, useRecoilState } from "recoil-react-native";
 import { wishCoorState } from "../../states/User";
 import { useFocusEffect } from "@react-navigation/core";
 
@@ -27,6 +20,24 @@ export default function MyPageScreen({ navigation }) {
   const { apiUrl } = getEnvVars();
   const [showModal, setShowModal] = useState(false);
   const wishCoor = useRecoilValue(wishCoorState);
+  const [dealt, setDealt] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      axios.post(
+        `${apiUrl}/api/posts/postid`,
+        {
+          xLocation:wishCoor.xLocation,
+          yLocation:wishCoor.yLocation,
+          post_uid:userInfo.uid,
+        }
+      )
+      .then((res) => {
+          console.log(res.data.data.isdealt);
+          setDealt(res.data.data.isdealt)
+      })
+    })
+  )
 
   return (
     <Wrapper>
@@ -39,9 +50,14 @@ export default function MyPageScreen({ navigation }) {
       />
       <UserInfoWrapper>
         <UserInfoName>
-          {userInfo.isNicknameSettingDone && userInfo.nickname ? "꼬미집사": "꼬미집사"} {userInfo.name ? "김승우" : "김승우"}
+          {userInfo.isNicknameSettingDone && userInfo.nickname
+            ? "쥬쓰"
+            : "쥬쓰"}{" "}
+          {userInfo.name ? "서연주" : "서연주"}
         </UserInfoName>
-        <UserInfoEmail>{userInfo.email ? userInfo.email : "seungwookim@kakao.com"}</UserInfoEmail>
+        <UserInfoEmail>
+          {userInfo.email ? userInfo.email : "kados22@naver.com"}
+        </UserInfoEmail>
       </UserInfoWrapper>
 
       <SectionWrapper>
@@ -57,14 +73,18 @@ export default function MyPageScreen({ navigation }) {
           navigation={navigation}
           showComplete={false}
           id={userInfo.uid}
+          dealt={dealt}
+          setDealt={setDealt}
         />
       </SectionWrapper>
       <SectionWrapper>
         <SectionTitle>채팅</SectionTitle>
         <View>
+          {/* ==으로 수정하기 */}
           {userInfo.uid == "kakao:1980885517" && (
             <ChatCard
               navigation={navigation}
+              setDealt={setDealt}
               title="신촌 근처 방 내놓아요"
               member={{
                 nickname: "역마낀",

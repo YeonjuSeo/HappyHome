@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil-react-native";
 import getEnvVars from "../../settings/environment";
 
 // components
-import { Text, View, Button, SafeAreaView, Image, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 
 import LoginScreenComp from "../Login/LoginScreenComp";
 import HomeComp from "./HomeComp";
@@ -23,8 +23,6 @@ import { userInfoState } from "../../states/UserInfo";
 
 import { Bold17 } from "../../styles/typography";
 import { GRAY4, PRIMARY } from "../../styles/color";
-
-
 
 export function HomeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -157,8 +155,8 @@ export function HomeScreen({ navigation }) {
       }, [isLoggedIn])
     );
     const Wrapper = styled.SafeAreaView`
-    flex: 1;
-    background-color: white;
+      flex: 1;
+      background-color: white;
     `;
     const UpperWrapper = styled.View`
       flex: 1;
@@ -183,12 +181,11 @@ export function HomeScreen({ navigation }) {
       color: ${PRIMARY};
     `;
 
-
     return (
       <Wrapper>
         <UpperWrapper>
           <Image
-            source={require('../../assets/HalfLogoImg.png')}
+            source={require("../../assets/HalfLogoImg.png")}
             style={{
               width: 90,
               height: 90,
@@ -196,16 +193,10 @@ export function HomeScreen({ navigation }) {
             }}
           />
           <TextWrapper>
-            <TitleGrayTxt>
-              간편하게 로그인하고
-            </TitleGrayTxt>
-            <View style={{flexDirection: "row"}}>
-            <TitlePrimaryTxt>
-              숨숨집
-            </TitlePrimaryTxt>
-            <TitleGrayTxt>
-              을 이용해보세요
-            </TitleGrayTxt>
+            <TitleGrayTxt>간편하게 로그인하고</TitleGrayTxt>
+            <View style={{ flexDirection: "row" }}>
+              <TitlePrimaryTxt>숨숨집</TitlePrimaryTxt>
+              <TitleGrayTxt>을 이용해보세요</TitleGrayTxt>
             </View>
           </TextWrapper>
         </UpperWrapper>
