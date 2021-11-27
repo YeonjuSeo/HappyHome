@@ -64,7 +64,7 @@ export default function MyPageScreen({ navigation }) {
               navigation={navigation}
               title="신촌 근처 방 내놓아요"
               member={{ nickname: "역마낀", name: "최지민", id: "kakao:27" }}
-              recentMsg="안녕하세요~! 혹시 다른 각도의 사진도 볼 수 있을까요?"
+              recentMsg="메시지"
             />
           )}
         </View>

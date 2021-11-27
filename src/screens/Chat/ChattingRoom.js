@@ -51,6 +51,7 @@ export default function ChattingRoom({ navigation, route }) {
             />
             <BubbleMe txt={"안녕하세요! 사진 보내드릴게요."} />
             <ImgBubble from={"ME"} />
+            <BubbleMe txt={"메시지"} />
             {input !== "" && (
               <View>
                 <DateMarker
