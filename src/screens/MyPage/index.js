@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import { ScrollView, View, Text } from "react-native";
+import {
+  ScrollView,
+  View,
+  Button,
+  Text,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { SemiBold17, SemiBold14, Regular14 } from "../../styles/typography";
 
 import MiniPostCard from "../../components/molecules/MiniPostCard";
@@ -8,7 +16,15 @@ import ChatCard from "../../components/molecules/ChatCard";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 
+import getEnvVars from "../../settings/environment";
+import { userInfoState } from "../../states/UserInfo";
+import { useRecoilValue } from "recoil-react-native";
+import { wishCoorState } from "../../states/User";
 export default function MyPageScreen({ navigation }) {
+  const userInfo = useRecoilValue(userInfoState);
+  const { apiUrl } = getEnvVars();
+  const [showModal, setShowModal] = useState(false);
+  const wishCoor = useRecoilValue(wishCoorState);
   return (
     <Wrapper>
       <HeaderTemplate
@@ -19,27 +35,42 @@ export default function MyPageScreen({ navigation }) {
         txtStyle={"color:white;"}
       />
       <UserInfoWrapper>
-        <UserInfoName>대현동불주먹 김지원</UserInfoName>
-        <UserInfoEmail>jiwonkim@gmail.com</UserInfoEmail>
+        <UserInfoName>
+          {userInfo.isNicknameSettingDone && userInfo.nickname} {userInfo.name}
+        </UserInfoName>
+        <UserInfoEmail>{userInfo.email}</UserInfoEmail>
       </UserInfoWrapper>
 
       <SectionWrapper>
         <SectionTitle>내가 쓴 글</SectionTitle>
-        <MiniPostCard navigation={navigation} showComplete={false} />
+        {/* <Button
+          title="거래완료"
+          onPress={() => {
+            setShowModal(true);
+          }}
+        /> */}
+
+        <MiniPostCard
+          navigation={navigation}
+          showComplete={false}
+          id={userInfo.uid}
+        />
       </SectionWrapper>
       <SectionWrapper>
         <SectionTitle>채팅</SectionTitle>
         <View>
-          <ChatCard
-            title="대현동 역세권 원룸 겨울방학만 단기로… "
-            member="역마낀 최지민"
-            recentMsg="안녕하세요~! 혹시 다른 각도의 사진도 볼 수 있을까요?"
-          />
-          <ChatCard
-            title="3주동안 잠시 방 빌리실 분 구해요/부산역"
-            member="부산청년 박지언"
-            recentMsg="안녕하세요."
-          />
+          {userInfo.uid !== "kakao:1980885517" && (
+            <ChatCard
+              navigation={navigation}
+              title="신촌 근처 방 내놓아요"
+              member={{
+                nickname: "역마낀",
+                name: "최지민",
+                id: "kakao:1980885517",
+              }}
+              recentMsg="메시지"
+            />
+          )}
         </View>
       </SectionWrapper>
     </Wrapper>
@@ -70,4 +101,5 @@ const SectionWrapper = styled.View`
 const SectionTitle = styled.Text`
   ${SemiBold17};
   margin-bottom: 11px;
+  margin-left: 16px;
 `;

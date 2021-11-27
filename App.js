@@ -38,7 +38,7 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name=" "
+            name="Home"
             component={HomeScreen}
             options={{ headerShown: false }}
           />
@@ -53,6 +53,7 @@ export default function App() {
             component={LocationSearchScreen}
           />
           <Stack.Screen name="WritePost" component={WritePostScreen} />
+          <Stack.Screen name="UploadImg" component={UploadImgScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen
             name="PhoneAuthLandingPage"
