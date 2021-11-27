@@ -24,6 +24,12 @@ import WifiIcon from "../../assets/wifi.png";
 import LaundaryIcon from "../../assets/laundary.png";
 import MicrowaveIcon from "../../assets/microwave.png";
 import AirCondIcon from "../../assets/air-conditioner.png";
+import DoorLockIcon from "../../assets/doorlock.png";
+import GasRangeIcon from "../../assets/gas-range.png";
+import VerandaIcon from "../../assets/veranda.png";
+import BedIcon from "../../assets/bed.png";
+import FridgeIcon from "../../assets/fridge.png";
+import DeskIcon from "../../assets/desk.png";
 
 // styles
 import {
@@ -43,7 +49,25 @@ const roomOptionIconData = {
   세탁기: LaundaryIcon,
   전자렌지: MicrowaveIcon,
   에어컨: AirCondIcon,
+  도어락: DoorLockIcon,
+  가스렌지: GasRangeIcon,
+  베란다: VerandaIcon,
+  침대: BedIcon,
+  책상: DeskIcon,
+  냉장고: FridgeIcon,
 };
+const roomOptionIconDataObj = [
+  { key: "가스렌지", icon: GasRangeIcon },
+  { key: "전자렌지", icon: MicrowaveIcon },
+  { key: "책상", icon: DeskIcon },
+  { key: "침대", icon: BedIcon },
+  { key: "냉장고", icon: FridgeIcon },
+  { key: "세탁기", icon: LaundaryIcon },
+  { key: "베란다", icon: VerandaIcon },
+  { key: "에어컨", icon: AirCondIcon },
+  { key: "와이파이", icon: WifiIcon },
+  { key: "도어락", icon: DoorLockIcon },
+];
 
 export default function DetailsScreen({ navigation, route }) {
   const { apiUrl } = getEnvVars();
@@ -51,6 +75,72 @@ export default function DetailsScreen({ navigation, route }) {
   let address;
   const wishCoor = useRecoilValue(wishCoorState);
   const userInfo = useRecoilValue(userInfoState);
+
+  const findIcon = (key) => {
+    if (key == "전자렌지")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.전자렌지}
+        />
+      );
+    if (key == "세탁기")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.세탁기}
+        />
+      );
+    if (key == "에어컨")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.에어컨}
+        />
+      );
+    if (key == "도어락")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.도어락}
+        />
+      );
+    if (key == "가스렌지")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.가스렌지}
+        />
+      );
+    if (key == "베란다")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.베란다}
+        />
+      );
+    if (key == "침대")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.침대}
+        />
+      );
+    if (key == "책상")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.책상}
+        />
+      );
+    if (key == "냉장고")
+      return (
+        <Image
+          style={{ height: 41, maxWidth: 33 }}
+          source={roomOptionIconData.냉장고}
+        />
+      );
+  };
 
   useEffect(() => {
     // console.log("id: ", route.params.id);
@@ -147,19 +237,25 @@ export default function DetailsScreen({ navigation, route }) {
                   <SmallSectionTitle>방 옵션</SmallSectionTitle>
 
                   <FlexRowWrapper style={{ alignItems: "flex-end" }}>
-                    {post.options.map((el, i) => (
-                      <RoomOptionItemWrapper>
-                        {/* <Image
-                          style={{ height: 41 }}
-                          source={roomOptionIconData.roomOptionType[el]}
-                        /> */}
-                        <Text
-                          style={[SemiBold11, { color: PRIMARY, marginTop: 7 }]}
-                        >
-                          {roomOptionType[el]}
-                        </Text>
-                      </RoomOptionItemWrapper>
-                    ))}
+                    {post.options.map((el, i) => {
+                      return (
+                        <RoomOptionItemWrapper key={el}>
+                          {findIcon(roomOptionType[el])}
+                          {/* <Image
+                            style={{ height: 41 }}
+                            source={`${roomOptionIconData}.${roomOptionType[el]}`}
+                          /> */}
+                          {/* <Text
+                            style={[
+                              SemiBold11,
+                              { color: PRIMARY, marginTop: 7 },
+                            ]}
+                          >
+                            {roomOptionType[el]}
+                          </Text> */}
+                        </RoomOptionItemWrapper>
+                      );
+                    })}
                   </FlexRowWrapper>
                 </SmallSectionWrapper>
                 <SmallSectionWrapper>

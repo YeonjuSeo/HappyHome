@@ -18,7 +18,7 @@ export const roomFeatureType = [
   "감성충만해요",
 ];
 export const roomOptionType = [
-  "가스렌지/인덕션",
+  "가스렌지",
   "전자렌지",
   "책상",
   "침대",
