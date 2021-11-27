@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
 
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import Postcode from "@actbase/react-daum-postcode";
 import { wishAddrState, wishCoorState } from "../../states/User";
 import { postAddrState, postCoorState } from "../../states/Post";
@@ -45,18 +45,20 @@ export function LocationSearchScreen({ route, navigation }) {
   };
 
   return (
-    <Postcode
-      style={{ flex: 1, paddingTop: 33 }}
-      jsOptions={{ animation: true }}
-      onSelected={async (data) => {
-        await request(data.roadAddress, route.params.prev);
-        if (route.params.prev == "Home") await setWishAddr(data.bname);
-        // console.log("POstcode: ", JSON.stringify(data.roadAddress));
-        else if (route.params.prev == "WritePost")
-          await route.params.setLocation(data.roadAddress);
-        await navigation.navigate(route.params.prev);
-      }}
-    />
+    <SafeAreaView style={{flex:1}}>
+      <Postcode
+        style={{ flex: 1, paddingTop: 33 }}
+        jsOptions={{ animation: true }}
+        onSelected={async (data) => {
+          await request(data.roadAddress, route.params.prev);
+          if (route.params.prev == "Home") await setWishAddr(data.bname);
+          // console.log("POstcode: ", JSON.stringify(data.roadAddress));
+          else if (route.params.prev == "WritePost")
+            await route.params.setLocation(data.roadAddress);
+          await navigation.navigate(route.params.prev);
+        }}
+      />
+    </SafeAreaView>
   );
 }
 
