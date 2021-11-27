@@ -5,17 +5,29 @@ import styled from "styled-components";
 import { GRAY0, GRAY1 } from "../../styles/color";
 import { SemiBold13, SemiBold14, Medium12 } from "../../styles/typography";
 
-export default function ChatCard({ title, member, recentMsg }) {
+export default function ChatCard({ navigation, title, member, recentMsg }) {
   return (
-    <Wrapper>
+    <Wrapper
+      onPress={() => {
+        navigation.navigate("ChattingRoom", {
+          owner: {
+            nickname: member.nickname,
+            name: member.name,
+            id: member.id,
+          },
+        });
+      }}
+    >
       <ChatTitle>{title}</ChatTitle>
-      <ChatMem>{member}</ChatMem>
+      <ChatMem>
+        {member.nickname} {member.name}
+      </ChatMem>
       <RecentMsg>{recentMsg}</RecentMsg>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.View`
+const Wrapper = styled.TouchableOpacity`
   height: 112px;
   justify-content: center;
   padding: 0 16px;

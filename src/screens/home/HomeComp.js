@@ -1,6 +1,16 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Button, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { wishAddrState, wishCoorState } from "../../states/User";
+import { useRecoilValue } from "recoil-react-native";
+import getEnvVars from "../../settings/environment";
+
+// styles
 import styled, { css } from "styled-components/native";
+import { Medium13 } from "../../styles/typography";
+import { GRAY3 } from "../../styles/color";
+
+// components
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import Header from "../../components/molecules/Header";
 import PostCard from "../../components/molecules/PostCard";
 import FilterIcon from "../../assets/Filter.png";
@@ -9,70 +19,127 @@ import Carousel from "../../components/molecules/Carousel";
 import WriteIcon from "../../assets/pencil.png";
 import { SearchButton } from "../../components/atoms/SearchBar";
 import { SearchBar } from "react-native-elements";
-import { Medium13 } from "../../styles/typography";
-import { GRAY3 } from "../../styles/color";
+import bgImg1 from "../../assets/splashBG1.png";
+import bgImg2 from "../../assets/splashBG2.png";
 
-import { wishAddrState } from "../../states/User";
-
-import { useRecoilValue } from "recoil-react-native";
+const bannerData = [
+  "https://postfiles.pstatic.net/MjAyMTExMjZfODAg/MDAxNjM3OTIzOTc4MjE1.qOyAYkSMSFZ7z0JmGnSSE-yaabDNe3W2GoHUzN7RkfIg.Rqn2nZPvPV6yVrA2KvS2oguv8jRo0KDufyNp8LENlAkg.PNG.kados22/banner.png?type=w773",
+];
 
 export default function HomeComp({ navigation }) {
   const wishAddr = useRecoilValue(wishAddrState);
+  const wishCoor = useRecoilValue(wishCoorState);
+  const [keyword, setKeyword] = useState();
   const [isRecentOrder, setIsRecentOrder] = useState(true);
+  const [postObj, setPostObj] = useState();
+
+  const { apiUrl } = getEnvVars();
+
+  function orderRequest(recentOrder) {
+    if (recentOrder) {
+      axios
+        .post(`${apiUrl}/api/posts/created`, {
+          xLocation: wishCoor.x,
+          yLocation: wishCoor.y,
+        })
+        .then((res) => {
+          const { data } = res.data;
+          setPostObj(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post(`${apiUrl}/api/posts/distance`, {
+          xLocation: wishCoor.x,
+          yLocation: wishCoor.y,
+        })
+        .then((res) => {
+          const { data } = res.data;
+          setPostObj(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  useEffect(() => {
+    orderRequest(isRecentOrder);
+  }, [isRecentOrder]);
+
   return (
     <Wrapper>
       <Header navigation={navigation} addr={wishAddr} />
-      <Carousel height={150} isIdxVisible={false} />
-
-      <PaddingWrapper>
-        <SearchBar
-          placeholder={`${wishAddr}의 어떤 집을 찾고 계세요?`}
-          containerStyle={{
-            backgroundColor: "white",
-            marginTop: 18,
-            marginBottom: 20,
-            height: 50,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 10,
-            borderBottomColor: "transparent",
-            borderTopColor: "transparent",
-          }}
-          inputContainerStyle={{ backgroundColor: "white" }}
-          leftIconContainerStyle={{ backgroundColor: "white" }}
-          inputStyle={{
-            fontWeight: "500",
-            fontSize: 15,
-            lineHeight: 18,
-            color: GRAY3,
-          }}
-          searchIcon={<SearchButton navigation={navigation} />}
-        />
-        <SmallMenuWrapper>
-          <TouchableOpacity
-            onPress={() => {
-              setIsRecentOrder(!isRecentOrder);
+      <ScrollView>
+        <Carousel data={bannerData} height={150} isIdxVisible={false} />
+        <PaddingWrapper>
+          <SearchBar
+            placeholder={`${wishAddr}의 어떤 집을 찾고 계세요?`}
+            containerStyle={{
+              backgroundColor: "white",
+              marginTop: 18,
+              marginBottom: 20,
+              height: 50,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.05,
+              shadowRadius: 10,
+              borderBottomColor: "transparent",
+              borderTopColor: "transparent",
             }}
-          >
-            <OrderButtonTxt>
-              {isRecentOrder ? "최신순" : "거리순"}
-            </OrderButtonTxt>
-          </TouchableOpacity>
-
-          <Text> | </Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Filter");
+            inputContainerStyle={{ backgroundColor: "white" }}
+            leftIconContainerStyle={{ backgroundColor: "white" }}
+            inputStyle={{
+              fontWeight: "500",
+              fontSize: 15,
+              lineHeight: 18,
+              color: GRAY3,
             }}
-          >
-            <Image source={FilterIcon} />
-          </TouchableOpacity>
-        </SmallMenuWrapper>
-        <View>
-          <PostCard navigation={navigation} />
-        </View>
-      </PaddingWrapper>
+            onChangeText={(value) => {
+              setKeyword(value);
+              console.log(value);
+            }}
+            value={keyword}
+            clearIcon={false}
+            searchIcon={
+              <SearchButton navigation={navigation} keyword={keyword} />
+            }
+          />
+          <SmallMenuWrapper>
+            <TouchableOpacity
+              onPress={() => {
+                const now = !isRecentOrder;
+                setIsRecentOrder(!isRecentOrder);
+              }}
+            >
+              <OrderButtonTxt>
+                {isRecentOrder ? "최신순" : "거리순"}
+              </OrderButtonTxt>
+            </TouchableOpacity>
+
+            <Text> | </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Filter");
+              }}
+            >
+              <Image source={FilterIcon} />
+            </TouchableOpacity>
+          </SmallMenuWrapper>
+          <View>
+            {postObj &&
+              postObj.map((item, i) => (
+                <PostCard
+                  key={item.title}
+                  navigation={navigation}
+                  post={item}
+                />
+              ))}
+          </View>
+        </PaddingWrapper>
+      </ScrollView>
 
       <LowerButton
         icon={WriteIcon}
@@ -84,6 +151,7 @@ export default function HomeComp({ navigation }) {
     </Wrapper>
   );
 }
+
 const Wrapper = styled.View`
   flex: 1;
   background-color: white;
@@ -101,4 +169,10 @@ const SmallMenuWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
+`;
+const LoadingWrapper = styled.View`
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

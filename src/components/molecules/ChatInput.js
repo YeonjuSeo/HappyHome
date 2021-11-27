@@ -12,6 +12,7 @@ export default function ChatInput({ setInput }) {
     <Wrapper>
       <Image source={CamIcon} />
       <ChatInputBox
+        value={content}
         onChangeText={(text) => {
           setContent(text);
         }}
@@ -21,6 +22,7 @@ export default function ChatInput({ setInput }) {
         <SubmitTxt
           onPress={() => {
             setInput(content);
+            setContent("");
           }}
         >
           전송
@@ -30,9 +32,8 @@ export default function ChatInput({ setInput }) {
   );
 }
 const Wrapper = styled.View`
-  min-height: 81px;
   background-color: #f2f3f6;
-  padding: 7px 16px 0 16px;
+  padding: 7px 16px 20px 16px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
