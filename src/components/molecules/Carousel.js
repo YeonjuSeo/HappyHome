@@ -24,7 +24,7 @@ export default function Carousel({ data = images, height, isIdxVisible }) {
   const animVal = new Animated.Value(0);
 
   let imageArray = [];
-  images.forEach((image, i) => {
+  data.forEach((image, i) => {
     const thisImage = (
       <Image
         key={`image${i}`}
