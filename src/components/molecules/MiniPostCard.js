@@ -101,7 +101,11 @@ export default function MiniPostCard({ showComplete, navigation, id }) {
             </ModalWrapper>
           )}
 
-          <PostImg source={FullLogoImg} />
+          <PostImg
+            source={{
+              uri: post.pictures[0],
+            }}
+          />
         </PostInfoWrapper>
       )}
     </>
