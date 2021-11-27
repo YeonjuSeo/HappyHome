@@ -4,33 +4,28 @@ import { Image, View, TouchableOpacity, Text } from "react-native";
 import Chevron from "../../assets/HeaderChevron.png";
 import { PRIMARY } from "../../styles/color";
 import MarkerIcon from "../../assets/marker.png";
+import BackButton from "../atoms/BackButton";
 
-export default function Header({ navigation, addr }) {
+export default function HeaderTemplate({
+  navigation,
+  title,
+  left,
+  right,
+  style,
+  txtStyle,
+}) {
   return (
-    <HeaderWrapper>
-      <View
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        <Image style={{ marginRight: 4 }} source={MarkerIcon} />
-        <HeaderTitleWrapper
-          onPress={() =>
-            navigation.navigate("LocationSearch", {
-              prev: "Home",
-            })
-          }
-        >
-          <HeaderTitleTxt>{addr}</HeaderTitleTxt>
-        </HeaderTitleWrapper>
+    <HeaderWrapper style={style}>
+      {left ? (
+        <BackButton navigation={navigation} />
+      ) : (
+        <View style={{ width: 28, height: 28 }}></View>
+      )}
+      <HeaderTitleWrapper>
+        <HeaderTitleTxt txtStyle={txtStyle}>{title}</HeaderTitleTxt>
+      </HeaderTitleWrapper>
 
-        <Image style={{ marginLeft: 4 }} source={Chevron} />
-      </View>
-      <MyWrapper
-        onPress={() => {
-          navigation.navigate("MyPage");
-        }}
-      >
-        <MyPageTxt>MY</MyPageTxt>
-      </MyWrapper>
+      {right ? right : <View style={{ width: 28, height: 28 }}></View>}
     </HeaderWrapper>
   );
 }
@@ -38,11 +33,13 @@ const HeaderWrapper = styled.View`
   background-color: white;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: flex-end;
+  justify-content: space-between;
   height: 95px;
-  padding-bottom: 15px;
   position: relative;
+  padding: 0 11px 15px 11px;
+  ${(props) => props.style}
+  width:100%;
 `;
 const HeaderTitleWrapper = styled.TouchableOpacity`
   display: flex;
@@ -53,11 +50,10 @@ const HeaderTitleWrapper = styled.TouchableOpacity`
 const HeaderTitleTxt = styled.Text`
   font-weight: bold;
   color: black;
-
+  display: flex;
   font-size: 17px;
   text-align: center;
-  text-align-vertical: center;
-  align-self: center;
+  ${(props) => props.txtStyle};
 `;
 const MyWrapper = styled.TouchableOpacity`
   position: absolute;
