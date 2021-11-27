@@ -30,6 +30,11 @@ export const SemiBold13 = css`
   font-size: 13px;
   line-height: 16px;
 `;
+export const SemiBold11 = css`
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 13.2px;
+`;
 export const Medium15 = css`
   font-weight: 500;
   font-size: 15px;
