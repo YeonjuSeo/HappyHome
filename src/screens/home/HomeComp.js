@@ -66,20 +66,6 @@ export default function HomeComp({ navigation }) {
         });
     }
   }
-  useFocusEffect(() => {
-    axios
-      .post(`${apiUrl}/api/posts/created`, {
-        xLocation: wishCoor.x,
-        yLocation: wishCoor.y,
-      })
-      .then((res) => {
-        const { data } = res.data;
-        setPostObj(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 
   useEffect(() => {
     orderRequest(isRecentOrder);
