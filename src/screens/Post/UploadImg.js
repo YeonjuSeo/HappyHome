@@ -16,8 +16,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MediaType } from "expo-media-library";
 import { MEDIA_LIBRARY } from "expo-permissions";
 import { useRecoilState } from "recoil-react-native";
-import { postImgState } from "../../states/Post";
-
+import { StackActions, NavigationActions } from "@react-navigation/native";
+// import { postImgState } from "../../states/Post";
+import { GRAY2, GRAY4 } from "../../styles/color";
 const ForceInset = {
   top: "never",
   bottom: "never",
@@ -28,10 +29,11 @@ const ForceInset = {
 
 // See => https://docs.expo.dev/versions/latest/sdk/media-library/#assetinfo
 
-export default function UploadImg({ navigation }) {
-  const [imgUri, setImgUri] = useRecoilState(postImgState);
+export default function UploadImg({ navigation, route }) {
+  // const [imgUri, setImgUri] = useRecoilState(postImgState);
   const onSuccess = (data) => {
     // console.log(JSON.stringify(data));
+    let tempImgArr = [];
     data.map(async (item, i) => {
       //   let uri = item.uri.replace("ph://", "");
       //   const hash = uri.split("/")[0];
@@ -39,11 +41,14 @@ export default function UploadImg({ navigation }) {
       //   setImgUri(`assets-library://asset/asset.jpg?id=${hash}&ext=jpg`);
       let uri = item.uri.slice(5);
       let returnedUri = await MediaLibrary.getAssetInfoAsync(uri);
-      console.log(returnedUri);
-      returnedUri = returnedUri.localUri + ".jpg";
+      tempImgArr.push(returnedUri.localUri);
+      console.log(tempImgArr);
+      // console.log(returnedUri.localUri);
+      // returnedUri = returnedUri.localUri + ".jpg";
       //   console.log(returnedUri);
-      setImgUri(returnedUri);
     });
+    // setImgUri(tempImgArr);
+    route.params.setPictures(tempImgArr);
 
     //console.log(JSON.stringify(`file://${data[0].uri}`));
   };
@@ -85,11 +90,19 @@ export default function UploadImg({ navigation }) {
   );
 
   const _textStyle = {
-    color: "white",
+    color: `${GRAY4}`,
+    fontWeight: "400",
+    fontSize: 17,
+    borderWidth: 1,
+    borderColor: `${GRAY2}`,
+    width: 97,
+    paddingTop: 7,
+    paddingBottom: 7,
+    textAlign: "center",
   };
 
   const _buttonStyle = {
-    backgroundColor: "orange",
+    backgroundColor: "white",
     borderRadius: 5,
   };
 
@@ -98,7 +111,7 @@ export default function UploadImg({ navigation }) {
       Texts: {
         finish: "finish",
         back: "back",
-        selected: "selected",
+        selected: "Selected",
       },
       midTextColor: "black",
       minSelection: 1,
@@ -107,7 +120,16 @@ export default function UploadImg({ navigation }) {
       onBack: () => {
         navigation.goBack();
       },
-      onSuccess: (e) => onSuccess(e),
+      onSuccess: (e) => {
+        onSuccess(e);
+        // navigation.dispatch(
+        //   StackActions.reset({
+        //     index: 0,
+        //     actions: [NavigationActions.navigate({ routeName: "WritePost" })],
+        //   })
+        // );
+        navigation.navigate("WritePost");
+      },
     }),
     []
   );
@@ -128,7 +150,7 @@ export default function UploadImg({ navigation }) {
         Component: Ionicons,
         iconName: "ios-checkmark-circle-outline",
         color: "white",
-        bg: "#0eb14970",
+        bg: `rgba(0,0,0,0.35)`,
         size: 26,
       },
     }),
@@ -147,10 +169,7 @@ export default function UploadImg({ navigation }) {
             Navigator={widgetNavigator}
             // Resize={widgetResize} know how to use first , perform slower results.
           />
-          <View>
-            {imgUri !== "" ? <Image source={{ uri: imgUri }} /> : null}
-            {imgUri ? <Text>{imgUri}</Text> : null}
-          </View>
+          <View></View>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

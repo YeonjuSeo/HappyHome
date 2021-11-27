@@ -100,6 +100,6 @@ const ImgBubbleWrapper = styled.View`
 
 const MomentTxt = styled.Text`
   ${Regular12}
-  margin-top:5px;
+  margin:5px 0 10px 0;
   align-self: ${(props) => (props.from == "ME" ? "flex-end" : "auto")};
 `;
