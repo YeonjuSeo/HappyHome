@@ -10,7 +10,7 @@ export default function SelectButton({ txt, onPress }) {
     setIsSelected(!isSelected);
   }
   return (
-    <TagWrapper onPress={handlePressed} isSelected={isSelected}>
+    <TagWrapper key={txt} onPress={handlePressed} isSelected={isSelected}>
       <TagTxt isSelected={isSelected}>{txt}</TagTxt>
     </TagWrapper>
   );
