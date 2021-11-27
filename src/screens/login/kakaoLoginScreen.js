@@ -38,7 +38,7 @@ const kakaoLoginScreen = ({navigation}) => {
         params: {
             grant_type: 'authorization_code',
             client_id: `${kakaoApiKey}`,  //rest api key
-            redirect_uri: `${apiUrl}/user/oauth`,    //redirect uri
+            redirect_uri: `${apiUrl}/api/users/auth/redirect`,    //redirect uri
             code: request_code,
         },
     }).then((response) => {
@@ -91,7 +91,7 @@ const kakaoLoginScreen = ({navigation}) => {
         originWhitelist={['*']}
         scalesPageToFit={false}
         style={{ marginTop: 30 }}
-        source={{ uri: `${kakaoBaseURL}/authorize?client_id=${kakaoApiKey}&redirect_uri=${apiUrl}/user/oauth&response_type=code` }}
+        source={{ uri: `${kakaoBaseURL}/authorize?client_id=${kakaoApiKey}&redirect_uri=${apiUrl}/api/users/auth/redirect&response_type=code` }}
         injectedJavaScript={runFirst}
         javaScriptEnabled={true}
         onMessage={(event) => { requestAccessCode(event.nativeEvent["url"]); }}
