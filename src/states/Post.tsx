@@ -18,7 +18,11 @@ export const postTitleState = atom({
 });
 export const postAddrState = atom({
   key: "postAddrState",
-  default: "ff",
+  default: "동 또는 도로명까지 입력해주세요",
+});
+export const postCoorState = atom({
+  key: "postCoorState",
+  default: { x: 0, y: 0 },
 });
 export const postImgState = atom({
   key: "postImgState",
