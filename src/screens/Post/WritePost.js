@@ -386,7 +386,6 @@ export default function WritePostScreen({ navigation }) {
           //       console.log(err);
           //     });
           // } else alert("빈 칸을 채워주세요");
-          */
         }
       }>
         <FooterTxt>작성완료</FooterTxt>

@@ -44,12 +44,14 @@ export function HomeScreen({ navigation }) {
         }
         let location = await Location.getCurrentPositionAsync({});
         await setWishCoor({
-          x: 126.937002,
-          y: 37.555552,
+          x: location.coords.longitude,
+          y: location.coords.latitude,
         });
         await axios
           .get(
-            `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=126.937002&y=37.555552`,
+            `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${String(
+              location.coords.longitude
+            )}&y=${String(location.coords.latitude)}`,
             {
               headers: {
                 Authorization: `KakaoAK ${kakaoApiKey}`,
@@ -73,7 +75,6 @@ export function HomeScreen({ navigation }) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const initializeUserInfo = async () => {
-    //await AsyncStorage.removeItem("auth");
     const ud = await AsyncStorage.getItem("auth");
     if (!ud) {
       //토큰이 없음

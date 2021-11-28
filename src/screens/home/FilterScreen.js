@@ -193,7 +193,14 @@ export default function FilterScreen({ navigation }) {
           result.features = myRoomFeature;
 
           console.log("result:", result);
-          navigation.navigate("Home");
+
+          axios.post(
+            "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/posts/filter",
+            result
+          )
+          .then((res) => {
+            navigation.navigate("Home");
+          })
         }}
       >
         <FooterTxt>설정완료</FooterTxt>
