@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, Button, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 import { GRAY0, GRAY1, GRAY2, GRAY4, PRIMARY, WHITE } from "../../styles/color";
 import { Bold17, SemiBold14 } from "../../styles/typography";
@@ -15,7 +8,7 @@ import { userInfoState } from "../../states/UserInfo";
 import axios from "axios";
 
 const NicknameSettingPage = ({ route, navigation }) => {
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState('');
 
   const CertHeader = () => {
     return (
@@ -23,12 +16,12 @@ const NicknameSettingPage = ({ route, navigation }) => {
         <View>
           <TitleGrayTxt>이름 설정</TitleGrayTxt>
         </View>
-        <View style={{ position: "absolute", right: 40 }}>
+        <View style={{position: "absolute", right: 40}}>
           <TitlePrimaryTxt>4/4</TitlePrimaryTxt>
         </View>
       </HeaderWrapper>
-    );
-  };
+    )
+  }
 
   const PurpleButton = () => {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);

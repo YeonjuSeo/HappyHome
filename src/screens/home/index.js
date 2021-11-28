@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil-react-native";
 import getEnvVars from "../../settings/environment";
 
 // components
-import { View, Image } from "react-native";
+import { Text, View, Button, SafeAreaView, Image, TouchableOpacity } from "react-native";
 
 import LoginScreenComp from "../Login/LoginScreenComp";
 import HomeComp from "./HomeComp";
