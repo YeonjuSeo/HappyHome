@@ -1,5 +1,10 @@
 import { css } from "styled-components/native";
 
+export const Bold17 = css`
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19.2px;
+`;
 export const Bold16 = css`
   font-weight: 700;
   font-size: 16px;

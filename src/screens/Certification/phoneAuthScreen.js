@@ -1,9 +1,36 @@
 import React from "react";
 import IMP from "iamport-react-native";
-
+import { SafeAreaView } from "react-native";
+import { useRecoilState } from "recoil-react-native";
+import { userInfoState } from "../../states/UserInfo";
+import axios from "axios";
 // import Loading from "./Loading";
 
 export function phoneAuthScreen({ navigation }) {
+
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const onPressOutHandler = async () => {
+    axios.
+      patch(
+        "https://us-central1-sumsum-af3c7.cloudfunctions.net/api/users/auth/phoneauth",
+      )
+      .then((res) => {
+        let {uid, token, isPhoneAuthDone, isUnivAuthDone, isNicknameSettingDone, photoURL} = userInfo;
+        let data = {
+          uid,
+          token,
+          isPhoneAuthDone: true,
+          isUnivAuthDone: false,
+          isNicknameSettingDone: false,
+          photoURL
+        }
+        setUserInfo(data);
+        navigation.navigate("UnivAuthLandingPage");
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
   function callback(response) {
     navigation.navigate("Home"); //navigation.replace("CertificationResult",response);
   }
@@ -12,21 +39,22 @@ export function phoneAuthScreen({ navigation }) {
   const data = {
     merchant_uid: `mid_${new Date().getTime()}`,
     company: "아임포트",
-    carrier: "SKT",
-    name: "서연주",
-    phone: "01027646794",
+    name: "김승우",
+    phone: "01059555425",
     min_age: "11",
   };
   const userCode = getUserCode("danal", "", "certification");
 
   return (
-    <IMP.Certification
-      userCode={userCode} // 가맹점 식별코드
-      tierCode={""} // 티어 코드: agency 기능 사용자에 한해 필요하므로 필요 없음
-      // loading={<Loading />} // 로딩 컴포넌트
-      data={data} // 본인인증 데이터
-      callback={callback} // 본인인증 종료 후 콜백
-    />
+    <SafeAreaView style={{flex:1}}>
+      <IMP.Certification
+        userCode={userCode} // 가맹점 식별코드
+        tierCode={""} // 티어 코드: agency 기능 사용자에 한해 필요하므로 필요 없음
+        // loading={<Loading />} // 로딩 컴포넌트
+        data={data} // 본인인증 데이터
+        callback={() => onPressOutHandler()} // 본인인증 종료 후 콜백
+      />
+    </SafeAreaView>
   );
 }
 

@@ -26,6 +26,10 @@ import PhoneAuthLandingPage from "./src/screens/Certification/phoneAuthLandingPa
 import UnivAuthLandingPage from "./src/screens/Certification/univAuthLandingPage";
 import NicknameSettingPage from "./src/screens/Certification/nicknameSettingPage";
 
+//Test
+import Test from "./src/screens/Test";
+
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
