@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
 
@@ -43,6 +43,10 @@ import CamIcon from "../../assets/camera.png";
 import SelectButton from "../../components/atoms/SelectButton";
 import TagSelectButton from "../../components/atoms/TagSelectButton";
 
+import * as firebase from "firebase/app";
+
+
+
 export default function WritePostScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState();
@@ -63,16 +67,48 @@ export default function WritePostScreen({ navigation }) {
     finishDate: +new Date(),
   });
   // const [imgArr, setImgArr] = useState([]);
-  const { apiUrl } = getEnvVars();
+  const { apiUrl, apiKey, projectId, storageBucket, messagingSenderId } = getEnvVars();
   const [showDatePicker, setShowDatePicker] = useState({
     start: false,
     finish: false,
   });
   const [isAllFilled, SetIsAllFilled] = useState(true);
   const sampleArr = ["hi", "my", "name"];
+  const [imgUri, setImgUri] = useState(null);
 
   // console.disableYellowBox = true;
   LogBox.ignoreAllLogs(true);
+
+  // 업로드
+  const firebaseConfig = {
+    apiKey,
+    projectId,
+    storageBucket,
+    messagingSenderId,
+  };
+
+  useEffect(() => {
+    firebase.initializeApp(firebaseConfig)
+  }, [])
+
+  const uploadOnFirebase = async (uri, imageName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    let ref = firebase.storage().ref().child("images/" + imageName)
+    console.log(ref);
+    return ref.put(blob);
+  }
+
+  const onUploadHandler = (uri) => {
+    uploadOnFirebase(uri, uri)
+      .then((res) => {
+        setImgUri(res);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -300,6 +336,7 @@ export default function WritePostScreen({ navigation }) {
       </InputWrapper>
       <FixedFooter
         onPress={() => {
+          onUploadHandler(pictures[0])
           let result = new Object();
           result.title = title;
           result.description = description;
@@ -316,7 +353,7 @@ export default function WritePostScreen({ navigation }) {
           result.gender = gender;
           result.smoking = smoking;
           result.pictures = [
-            "https://images.pexels.com/photos/6636309/pexels-photo-6636309.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+            imgUri,
           ];
           result.features = [myRoomFeature];
           result.options = [myRoomOption];
@@ -348,8 +385,9 @@ export default function WritePostScreen({ navigation }) {
           //       console.log(err);
           //     });
           // } else alert("빈 칸을 채워주세요");
-        }}
-      >
+          */
+        }
+      }>
         <FooterTxt>작성완료</FooterTxt>
       </FixedFooter>
     </View>
