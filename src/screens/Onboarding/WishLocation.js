@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Text, View, Button } from "react-native";
 import getEnvVars from "../../settings/environment";
 import axios from "axios";
+import { wishCoorState } from "../../states/User";
+import { useRecoilState } from "recoil-react-native";
 
 export function WishLocationScreen({ navigation, route }) {
   const [wishAddress, setWishAddress] = useState("");
   const [resp, setResp] = useState("");
+  const [wishCoor, setWishCoor] = useRecoilState(wishCoorState);
 
   const { kakaoApiKey } = getEnvVars();
 
@@ -26,8 +29,12 @@ export function WishLocationScreen({ navigation, route }) {
           },
         }
       )
-      .then(function (response) {
-        setResp(response);
+      .then(function (resp) {
+        // setResp(response);
+        setWishCoor({
+          x: resp.data?.documents[0].x,
+          y: resp.data?.documents[0].y,
+        });
       });
   };
   return (
@@ -47,8 +54,6 @@ export function WishLocationScreen({ navigation, route }) {
       <Text>
         지명/도로명/지번주소/도로명주소: {resp.data?.documents[0].address_type}
       </Text>
-      <Text>x좌표: {resp.data?.documents[0].x}</Text>
-      <Text>y좌표: {resp.data?.documents[0].y}</Text>
     </View>
   );
 }

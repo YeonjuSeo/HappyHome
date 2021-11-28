@@ -14,7 +14,7 @@ import SplashScreen from "../Splash";
 import KakaoButton from "../../components/atoms/kakaoButton";
 
 // states
-import { wishAddrState } from "../../states/User";
+import { wishAddrState, wishCoorState } from "../../states/User";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isLoggedInState } from "../../states/IsLoggedIn";
@@ -30,12 +30,14 @@ export function HomeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   // const canLoad = useWishAddr(se`tIsLoading);
+  const [wishCoor, setWishCoor] = useRecoilState(wishCoorState);
   const [location, setLocation] = useState(null);
   const [wishAddr, setWishAddr] = useRecoilState(wishAddrState);
 
   const { kakaoApiKey } = getEnvVars();
   useEffect(() => {
-    if (wishAddr == "")
+    if (wishAddr !== "") setIsLoading(false);
+    else
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -43,28 +45,27 @@ export function HomeScreen({ navigation }) {
           return;
         }
         let location = await Location.getCurrentPositionAsync({});
-        await setLocation({
-          latitude: String(location.coords.latitude),
-          longitude: String(location.coords.longitude),
+        await setWishCoor({
+          x: location.coords.longitude,
+          y: location.coords.latitude,
         });
+        await axios
+          .get(
+            `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${String(
+              location.coords.longitude
+            )}&y=${String(location.coords.latitude)}`,
+            {
+              headers: {
+                Authorization: `KakaoAK ${kakaoApiKey}`,
+              },
+            }
+          )
+          .then(function (response) {
+            setWishAddr(response.data?.documents[0].address.region_3depth_name);
+            setIsLoading(false);
+          });
       })();
   }, []);
-  useEffect(() => {
-    if (wishAddr == "" && location)
-      axios
-        .get(
-          `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=126.937002&y=37.555552`,
-          {
-            headers: {
-              Authorization: `KakaoAK ${kakaoApiKey}`,
-            },
-          }
-        )
-        .then(function (response) {
-          setWishAddr(response.data?.documents[0].address.region_3depth_name);
-          setIsLoading(false);
-        });
-  }, [location]);
 
   // 최대한 안겹치게 저는 요기 아래로 작업했습니다 ㅎㅎ...
   useEffect(() => {
@@ -94,29 +95,42 @@ export function HomeScreen({ navigation }) {
             Authorization: `Bearer ${token}`,
           },
         }
-    )
-    .then( async (res) => {
-      const { isPhoneAuthDone, isUnivAuthDone, isNicknameSettingDone, photoURL } = res.data.data.data;
-      const { uid } = res.data.data.decoded;
-      let data = {
-        uid,
-        token,
-        isPhoneAuthDone,
-        isUnivAuthDone,
-        isNicknameSettingDone,
-        photoURL
-      };
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setIsLoggedIn(true);
-      setUserInfo(data);
-      await AsyncStorage.setItem('auth', JSON.stringify(data))
-    })
-    .catch((err) => {
-      // 토큰은 있지만, 유효하지 않은 토큰일 때
-      console.log(err)
-      setIsLoggedIn(false);
-      return;
-    })
+      )
+      .then(async (res) => {
+        const {
+          isPhoneAuthDone,
+          isUnivAuthDone,
+          isNicknameSettingDone,
+          isPosted,
+          photoURL,
+          nickname,
+          name,
+          email,
+        } = res.data.data.data;
+        const { uid } = res.data.data.decoded;
+        let data = {
+          uid,
+          token,
+          isPhoneAuthDone,
+          isUnivAuthDone,
+          isNicknameSettingDone,
+          isPosted,
+          photoURL,
+          nickname,
+          name,
+          email,
+        };
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        setIsLoggedIn(true);
+        setUserInfo(data);
+        await AsyncStorage.setItem("auth", JSON.stringify(data));
+      })
+      .catch((err) => {
+        // 토큰은 있지만, 유효하지 않은 토큰일 때
+        console.log(err);
+        setIsLoggedIn(false);
+        return;
+      });
   };
 
   const LoginScreen = () => {
