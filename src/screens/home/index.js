@@ -129,8 +129,6 @@ export function HomeScreen({ navigation }) {
         setIsLoggedIn(false);
         return;
       });
-
-    //axios.defaults.headers.common['Authorization'] = ud.token;
   };
 
   const LoginScreen = () => {
