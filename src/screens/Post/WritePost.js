@@ -1,26 +1,8 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
 import { CommonActions } from "@react-navigation/native";
-
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  ScrollView,
-  Pressable,
-  TextInput,
-  TouchableOpacity,
-  LogBox,
-} from "react-native";
-import styled from "styled-components";
-import { ImageBrowser } from "expo-image-picker-multiple";
-import { postAddrState, postCoorState, postImgState } from "../../states/Post";
-import { useRecoilValue, useSetRecoilState } from "recoil-react-native";
-
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import HeaderTemplate from "../../components/template/HeaderTemplate";
 import {
   buildingType,
   userGenderType,
@@ -31,18 +13,24 @@ import {
   roomType,
 } from "../Home/ItemOptionData";
 
+// styles
 import {
   Bold14,
   SemiBold17,
   SemiBold14,
   Medium12,
-  Regular12,
 } from "../../styles/typography";
-import { PRIMARY, GRAY0, GRAY1, GRAY4 } from "../../styles/color";
+import { PRIMARY, GRAY0, GRAY1 } from "../../styles/color";
 
-import CamIcon from "../../assets/camera.png";
+//components
+import { View, Text, Image, LogBox } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import HeaderTemplate from "../../components/template/HeaderTemplate";
 import SelectButton from "../../components/atoms/SelectButton";
 import TagSelectButton from "../../components/atoms/TagSelectButton";
+
+// images
+import CamIcon from "../../assets/camera.png";
 
 export default function WritePostScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -72,9 +60,7 @@ export default function WritePostScreen({ navigation }) {
     finish: false,
   });
   const [isAllFilled, SetIsAllFilled] = useState(true);
-  const sampleArr = ["hi", "my", "name"];
 
-  // console.disableYellowBox = true;
   LogBox.ignoreAllLogs(true);
 
   return (

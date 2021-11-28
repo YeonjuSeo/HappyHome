@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
 
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
 import Postcode from "@actbase/react-daum-postcode";
 import { wishAddrState, wishCoorState } from "../../states/User";
-import { postAddrState, postCoorState } from "../../states/Post";
 import { useRecoilState, useSetRecoilState } from "recoil-react-native";
-import HeaderTemplate from "../../components/template/HeaderTemplate";
 
 export function LocationSearchScreen({ route, navigation }) {
   const [wishAddr, setWishAddr] = useRecoilState(wishAddrState);
   const [wishCoor, setWishCoor] = useRecoilState(wishCoorState);
-  const setPostAddr = useSetRecoilState(postAddrState);
-  const setPostCoor = useSetRecoilState(postCoorState);
   const { kakaoApiKey } = getEnvVars();
 
   const request = (addr, prev) => {
@@ -45,7 +41,7 @@ export function LocationSearchScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Postcode
         style={{ flex: 1, paddingTop: 33 }}
         jsOptions={{ animation: true }}

@@ -1,15 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useRecoilState, useRecoilValue } from "recoil-react-native";
-import { wishCoorState } from "../../states/User";
-
-// components
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import FullLogoImg from "../../assets/FullLogoImg.png";
 
 // styles
 import { SemiBold17, Medium12, Bold16 } from "../../styles/typography";
-import { PRIMARY, GRAY2, GRAY0 } from "../../styles/color";
+import { PRIMARY, GRAY2 } from "../../styles/color";
 
 export default function PostCard({ navigation, post }) {
   return (
@@ -18,7 +12,6 @@ export default function PostCard({ navigation, post }) {
       onPress={() => {
         navigation.navigate("Details", {
           id: `${post.id}`,
-          // id: "kakao:1980885517",
         });
       }}
     >

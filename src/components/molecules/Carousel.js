@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  Animated,
-  View,
-  Image,
-  Dimensions,
-  ScrollView,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Animated, Image, Dimensions, ScrollView } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 

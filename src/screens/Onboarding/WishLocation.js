@@ -30,7 +30,6 @@ export function WishLocationScreen({ navigation, route }) {
         }
       )
       .then(function (resp) {
-        // setResp(response);
         setWishCoor({
           x: resp.data?.documents[0].x,
           y: resp.data?.documents[0].y,
@@ -48,7 +47,6 @@ export function WishLocationScreen({ navigation, route }) {
           });
         }}
       />
-      {/* <Button title="카카오로 검색하기" onPress={request} /> */}
       <Text>wishAddres: {wishAddress}</Text>
       <Text>전체 도로명 주소: {resp.data?.documents[0].address_name}</Text>
       <Text>
