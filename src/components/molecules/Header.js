@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Image, View, TouchableOpacity, Text } from "react-native";
+import { Image, View } from "react-native";
 import Chevron from "../../assets/HeaderChevron.png";
 import { PRIMARY } from "../../styles/color";
 import MarkerIcon from "../../assets/marker.png";

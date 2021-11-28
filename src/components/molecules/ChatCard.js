@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import styled from "styled-components";
 
 import { GRAY0, GRAY1 } from "../../styles/color";
@@ -10,12 +9,14 @@ export default function ChatCard({
   title,
   member,
   recentMsg,
+  dealt,
   setDealt,
 }) {
   return (
     <Wrapper
       onPress={() => {
         navigation.navigate("ChattingRoom", {
+          dealt: dealt,
           setDealt: setDealt,
           owner: {
             nickname: member.nickname,

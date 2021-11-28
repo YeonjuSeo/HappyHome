@@ -6,8 +6,6 @@ import {
   roomType,
   roomFeatureType,
 } from "./ItemOptionData";
-import { useRecoilState } from "recoil-react-native";
-// import { dateState } from "../../states/Filter";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
 
@@ -16,15 +14,7 @@ import { SemiBold14, Regular14, Regular12 } from "../../styles/typography";
 import { GRAY0, GRAY1, PRIMARY } from "../../styles/color";
 
 // components
-import {
-  ScrollView,
-  Text,
-  View,
-  LogBox,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import { Progress, Slider } from "@ant-design/react-native";
+import { Text, View, LogBox } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import SelectButton from "../../components/atoms/SelectButton";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
@@ -38,21 +28,12 @@ export default function FilterScreen({ navigation }) {
     start: false,
     finish: false,
   });
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState();
-  const [location, setLocation] = useState("동 또는 도로명까지 입력해주세요");
-  const [coor, setCoor] = useState();
-  const [pictures, setPictures] = useState([]);
   const [rentalFeeMin, setRentalFeeMin] = useState();
   const [rentalFeeMax, setRentalFeeMax] = useState();
   const [myBuildingType, setMyBuildingType] = useState();
   const [myFloorsType, setMyFloorsType] = useState();
   const [myRoomType, setMyRoomType] = useState();
-  const [myRoomFeature, setMyRoomFeature] = useState();
-  const [myRoomOption, setMyRoomOption] = useState();
-  const [gender, setGender] = useState();
-  const [smoking, setSmoking] = useState();
-  // const [imgArr, setImgArr] = useState([]);
+  const [myRoomFeature, setMyRoomFeature] = useState([0, 0, 0, 0, 0, 0, 0]);
   const { apiUrl } = getEnvVars();
   LogBox.ignoreAllLogs(true);
   return (
@@ -62,12 +43,6 @@ export default function FilterScreen({ navigation }) {
         <SectionWrapper>
           <Title>기간</Title>
           <SectionContentWrapper>
-            {/* <FlexRowCenterWrppaer
-            style={{
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          > */}
             <BorderButton
               onPress={() => setShowDatePicker({ start: true, finish: false })}
               onCancel={() =>
@@ -96,11 +71,10 @@ export default function FilterScreen({ navigation }) {
             <BorderButton
               onPress={() => {
                 setShowDatePicker({ start: false, finish: true });
-                //setShowDatePicker({ start: false, finish: false });
               }}
-              onCancel={() =>
-                setShowDatePicker({ start: false, finish: false })
-              }
+              onCancel={() => {
+                setShowDatePicker({ start: false, finish: false });
+              }}
             >
               <BorderButtonTxt>
                 {new Date(date.finishDate).getMonth() + 1}월{" "}
@@ -114,13 +88,11 @@ export default function FilterScreen({ navigation }) {
               onCancel={() =>
                 setShowDatePicker({ start: false, finish: false })
               }
-              onConfirm={(value) =>{
-                setDate({ startDate: date.startDate, finishDate: value })
-                setShowDatePicker({ start: false, finish: false })
-                }
-              }
+              onConfirm={(value) => {
+                setDate({ startDate: date.startDate, finishDate: value });
+                setShowDatePicker({ start: false, finish: false });
+              }}
             />
-            {/* </FlexRowCenterWrppaer> */}
           </SectionContentWrapper>
         </SectionWrapper>
         <SectionWrapper>
@@ -190,11 +162,17 @@ export default function FilterScreen({ navigation }) {
           </RowBetweenWrapper>
 
           <ButtonWrapper>
-            {roomFeatureType?.map((type,i) => (
+            {roomFeatureType?.map((type, i) => (
               <SelectButton
                 flag={1}
                 onPress={() => {
-                  setMyRoomFeature(i);
+                  let temp = myRoomFeature;
+                  if (myRoomFeature[i] == 0) {
+                    temp[i] = 1;
+                  } else if (myRoomFeature[i] == 1) {
+                    temp[i] = 0;
+                  }
+                  setMyRoomFeature(temp);
                 }}
                 txt={`#${type}`}
               />
@@ -204,21 +182,17 @@ export default function FilterScreen({ navigation }) {
       </Wrapper>
       <FixedFooter
         onPress={() => {
-          // let result = new Object();
-          // result.rentalFeeMin = rentalFeeMax;
-          // result.rentalFeeMax = rentalFeeMax;
-          // result.buildingType = myBuildingType;
-          // result.floors = myFloorsType;
-          // result.roomType = myRoomType;
-          // result.residentStartDate = new Date(date.startDate).getTime();
-          // result.residentFinishDate = new Date(date.finishDate).getTime();
-          // result.gender = gender;
-          // result.smoking = smoking;
-          // result.pictures = pictures;
-          // result.features = [myRoomFeature];
-          // result.options = [myRoomOption];
+          let result = new Object();
+          result.rentalFeeMin = rentalFeeMax;
+          result.rentalFeeMax = rentalFeeMax;
+          result.buildingType = myBuildingType;
+          result.floors = myFloorsType;
+          result.roomType = myRoomType;
+          result.residentStartDate = new Date(date.startDate).getTime();
+          result.residentFinishDate = new Date(date.finishDate).getTime();
+          result.features = myRoomFeature;
 
-          // console.log("result:", result);
+          console.log("result:", result);
           navigation.navigate("Home");
         }}
       >

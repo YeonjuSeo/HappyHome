@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Text, View, Button, Pressable } from "react-native";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 export default function SelectButton({ onPress, txt, flag = 0 }) {
   const [isSelected, setIsSelected] = useState(false);

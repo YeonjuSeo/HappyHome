@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components/native";
-import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Image, TouchableOpacity, ScrollView } from "react-native";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
 import FilterIcon from "../../assets/Filter.png";
 import PostCard from "../../components/molecules/PostCard";
@@ -12,7 +12,6 @@ import getEnvVars from "../../settings/environment";
 export default function ResultScreen({ navigation, route }) {
   const { apiUrl } = getEnvVars();
   const [postObj, setPostObj] = useState();
-  const wishAddr = useRecoilValue(wishAddrState);
   const wishCoor = useRecoilValue(wishCoorState);
   useEffect(() => {
     axios
