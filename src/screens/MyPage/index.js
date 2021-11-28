@@ -7,7 +7,7 @@ import { SemiBold17, SemiBold14, Regular14 } from "../../styles/typography";
 import MiniPostCard from "../../components/molecules/MiniPostCard";
 import ChatCard from "../../components/molecules/ChatCard";
 import HeaderTemplate from "../../components/template/HeaderTemplate";
-import { PRIMARY, GRAY0 } from "../../styles/color";
+import { PRIMARY } from "../../styles/color";
 
 import getEnvVars from "../../settings/environment";
 import { userInfoState } from "../../states/UserInfo";
@@ -32,25 +32,13 @@ export default function MyPageScreen({ navigation }) {
       />
       <UserInfoWrapper>
         <UserInfoName>
-          {userInfo.isNicknameSettingDone && userInfo.nickname
-            ? "꼬미집사"
-            : "꼬미집사"}{" "}
-          {userInfo.name ? "김승우" : "김승우"}
+          {userInfo.isNicknameSettingDone && userInfo.nickname} {userInfo.name}
         </UserInfoName>
-        <UserInfoEmail>
-          {userInfo.email ? userInfo.email : "seungwookim@kakao.com"}
-        </UserInfoEmail>
+        <UserInfoEmail>{userInfo.email}</UserInfoEmail>
       </UserInfoWrapper>
 
       <SectionWrapper>
         <SectionTitle>내가 쓴 글</SectionTitle>
-        {/* <Button
-          title="거래완료"
-          onPress={() => {
-            setShowModal(true);
-          }}
-        /> */}
-
         <MiniPostCard
           navigation={navigation}
           showComplete={false}
@@ -63,9 +51,10 @@ export default function MyPageScreen({ navigation }) {
         <SectionTitle>채팅</SectionTitle>
         <View>
           {/* ==으로 수정하기 */}
-          {userInfo.uid == "kakao:1980885517" && (
+          {userInfo.uid !== "kakao:1980885517" && (
             <ChatCard
               navigation={navigation}
+              dealt={dealt}
               setDealt={setDealt}
               title="신촌 근처 방 내놓아요"
               member={{

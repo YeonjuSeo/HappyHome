@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  ScrollView,
-  Image,
-  Alert,
-} from "react-native";
+import { View, KeyboardAvoidingView, Alert } from "react-native";
 
 import { SemiBold14, Regular14 } from "../../styles/typography";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 
-import { useRecoilValue, useRecoilState } from "recoil-react-native";
+import { useRecoilValue } from "recoil-react-native";
 import { userInfoState } from "../../states/UserInfo";
 import { BubbleYou, BubbleMe, ImgBubble } from "../../components/atoms/Bubble";
 import DateMarker from "../../components/atoms/DateMarker";
@@ -38,9 +31,11 @@ export default function ChattingRoom({ navigation, route }) {
         left={true}
       />
       <MiniPostCard
+        dealt={route.params.dealt}
+        setDealt={route.params.setDealt}
         navigation={navigation}
         // !== 으로 수정하기
-        showComplete={route.params.owner.id !== userInfo.uid}
+        showComplete={route.params.owner.id == userInfo.uid}
         id={route.params.owner.id}
         setShowModal={setShowModal}
       />

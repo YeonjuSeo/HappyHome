@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil-react-native";
 import getEnvVars from "../../settings/environment";
 
 // styles
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 import { Medium13 } from "../../styles/typography";
 import { GRAY3 } from "../../styles/color";
 
@@ -19,9 +19,6 @@ import Carousel from "../../components/molecules/Carousel";
 import WriteIcon from "../../assets/pencil.png";
 import { SearchButton } from "../../components/atoms/SearchBar";
 import { SearchBar } from "react-native-elements";
-import bgImg1 from "../../assets/splashBG1.png";
-import bgImg2 from "../../assets/splashBG2.png";
-import { useFocusEffect } from "@react-navigation/core";
 
 const bannerData = [
   "https://postfiles.pstatic.net/MjAyMTExMjZfODAg/MDAxNjM3OTIzOTc4MjE1.qOyAYkSMSFZ7z0JmGnSSE-yaabDNe3W2GoHUzN7RkfIg.Rqn2nZPvPV6yVrA2KvS2oguv8jRo0KDufyNp8LENlAkg.PNG.kados22/banner.png?type=w773",
@@ -69,7 +66,7 @@ export default function HomeComp({ navigation }) {
 
   useEffect(() => {
     orderRequest(isRecentOrder);
-  }, [isRecentOrder]);
+  }, [isRecentOrder, postObj]);
 
   return (
     <Wrapper>
@@ -101,7 +98,6 @@ export default function HomeComp({ navigation }) {
             }}
             onChangeText={(value) => {
               setKeyword(value);
-              //console.log(value);
             }}
             value={keyword}
             clearIcon={false}
