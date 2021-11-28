@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text } from "react-native";
 import styled from "styled-components";
 import { wishCoorState } from "../../states/User";
 
-import { SemiBold14, Bold14, Regular14 } from "../../styles/typography";
+import { SemiBold14, Bold14 } from "../../styles/typography";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 
-import FullLogoImg from "../../assets/FullLogoImg.png";
 import { useRecoilValue } from "recoil-react-native";
 import { userInfoState } from "../../states/UserInfo";
 import axios from "axios";

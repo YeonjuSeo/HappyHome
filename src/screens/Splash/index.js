@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components/native";
-import { Image, Text, View } from "react-native";
+import { Image } from "react-native";
 
 import LogoImg from "../../assets/FullLogoImg.png";
 import bgImg1 from "../../assets/splashBG1.png";

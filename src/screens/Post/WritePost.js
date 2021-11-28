@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
-
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  ScrollView,
-  Pressable,
-  TextInput,
-  TouchableOpacity,
-  LogBox,
-} from "react-native";
-import styled from "styled-components";
-import { ImageBrowser } from "expo-image-picker-multiple";
-import { postAddrState, postCoorState, postImgState } from "../../states/Post";
-import { useRecoilValue, useSetRecoilState } from "recoil-react-native";
-
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import HeaderTemplate from "../../components/template/HeaderTemplate";
+import { CommonActions } from "@react-navigation/native";
 import {
   buildingType,
   userGenderType,
@@ -30,22 +13,26 @@ import {
   roomType,
 } from "../Home/ItemOptionData";
 
+// styles
 import {
   Bold14,
   SemiBold17,
   SemiBold14,
   Medium12,
-  Regular12,
 } from "../../styles/typography";
-import { PRIMARY, GRAY0, GRAY1, GRAY4 } from "../../styles/color";
+import { PRIMARY, GRAY0, GRAY1 } from "../../styles/color";
 
-import CamIcon from "../../assets/camera.png";
+//components
+import { View, Text, Image, LogBox } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import HeaderTemplate from "../../components/template/HeaderTemplate";
 import SelectButton from "../../components/atoms/SelectButton";
 import TagSelectButton from "../../components/atoms/TagSelectButton";
 
 import * as firebase from "firebase/app";
 
-
+// images
+import CamIcon from "../../assets/camera.png";
 
 export default function WritePostScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -58,8 +45,10 @@ export default function WritePostScreen({ navigation }) {
   const [myBuildingType, setMyBuildingType] = useState();
   const [myFloorsType, setMyFloorsType] = useState();
   const [myRoomType, setMyRoomType] = useState();
-  const [myRoomFeature, setMyRoomFeature] = useState();
-  const [myRoomOption, setMyRoomOption] = useState();
+  const [myRoomFeature, setMyRoomFeature] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [myRoomOption, setMyRoomOption] = useState([
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]);
   const [gender, setGender] = useState();
   const [smoking, setSmoking] = useState();
   const [date, setDate] = useState({
@@ -76,7 +65,6 @@ export default function WritePostScreen({ navigation }) {
   const sampleArr = ["hi", "my", "name"];
   const [imgUri, setImgUri] = useState(null);
 
-  // console.disableYellowBox = true;
   LogBox.ignoreAllLogs(true);
 
   // 업로드
@@ -294,7 +282,13 @@ export default function WritePostScreen({ navigation }) {
             {roomOptionType.map((type, i) => (
               <SelectButton
                 onPress={() => {
-                  setMyRoomOption(i);
+                  let temp = myRoomOption;
+                  if (myRoomOption[i] == 0) {
+                    temp[i] = 1;
+                  } else if (myRoomOption[i] == 1) {
+                    temp[i] = 0;
+                  }
+                  setMyRoomOption(temp);
                 }}
                 txt={type}
                 flag={i}
@@ -307,7 +301,13 @@ export default function WritePostScreen({ navigation }) {
             {roomFeatureType.map((type, i) => (
               <TagSelectButton
                 onPress={() => {
-                  setMyRoomFeature(i);
+                  let temp = myRoomFeature;
+                  if (myRoomFeature[i] == 0) {
+                    temp[i] = 1;
+                  } else if (myRoomFeature[i] == 1) {
+                    temp[i] = 0;
+                  }
+                  setMyRoomFeature(temp);
                 }}
                 txt={`#${type}`}
               />
@@ -355,15 +355,16 @@ export default function WritePostScreen({ navigation }) {
           result.pictures = [
             imgUri,
           ];
-          result.features = [myRoomFeature];
-          result.options = [myRoomOption];
+          result.features = myRoomFeature;
+          result.options = myRoomOption;
 
           console.log("result:", result);
           axios
             .post(`${apiUrl}/api/posts`, result)
             .then((res) => {
               //console.log(res);
-              navigation.navigate("Home");
+              // navigation.navigate("Home");
+              navigation.dispatch(CommonActions.goBack());
             })
             .catch((err) => {
               console.log(err);

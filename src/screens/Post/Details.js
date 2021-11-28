@@ -38,7 +38,6 @@ import {
   Medium14,
   SemiBold17,
   SemiBold14,
-  SemiBold11,
   Bold16,
   Regular14,
 } from "../../styles/typography";
@@ -238,34 +237,26 @@ export default function DetailsScreen({ navigation, route }) {
 
                   <FlexRowWrapper style={{ alignItems: "flex-end" }}>
                     {post.options.map((el, i) => {
-                      return (
-                        <RoomOptionItemWrapper key={el}>
-                          {findIcon(roomOptionType[el])}
-                          {/* <Image
-                            style={{ height: 41 }}
-                            source={`${roomOptionIconData}.${roomOptionType[el]}`}
-                          /> */}
-                          {/* <Text
-                            style={[
-                              SemiBold11,
-                              { color: PRIMARY, marginTop: 7 },
-                            ]}
-                          >
-                            {roomOptionType[el]}
-                          </Text> */}
-                        </RoomOptionItemWrapper>
-                      );
+                      if (el == 1)
+                        return (
+                          <RoomOptionItemWrapper key={i}>
+                            {findIcon(roomOptionType[i])}
+                          </RoomOptionItemWrapper>
+                        );
                     })}
                   </FlexRowWrapper>
                 </SmallSectionWrapper>
                 <SmallSectionWrapper>
                   <SmallSectionTitle>특징</SmallSectionTitle>
                   <FlexRowWrapper>
-                    {post.features.map((item, i) => (
-                      <TagWrapper key={item}>
-                        <TagTxt>#{roomFeatureType[item]}</TagTxt>
-                      </TagWrapper>
-                    ))}
+                    {post.features.map((item, i) => {
+                      if (item == 1)
+                        return (
+                          <TagWrapper key={item}>
+                            <TagTxt>#{roomFeatureType[i]}</TagTxt>
+                          </TagWrapper>
+                        );
+                    })}
                   </FlexRowWrapper>
                 </SmallSectionWrapper>
                 <LargeSectionTitle>기타</LargeSectionTitle>

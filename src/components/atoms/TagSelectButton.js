@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Text, View, Button, Pressable } from "react-native";
 import { PRIMARY, GRAY0 } from "../../styles/color";
 import { Regular12 } from "../../styles/typography";
 export default function SelectButton({ txt, onPress }) {

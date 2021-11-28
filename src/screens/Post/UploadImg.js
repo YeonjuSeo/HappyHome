@@ -1,23 +1,10 @@
-import React, { useMemo, useState } from "react";
-import {
-  Text,
-  StatusBar,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  Alert,
-  Image,
-} from "react-native";
+import React, { useMemo } from "react";
+import { StatusBar, View, StyleSheet, SafeAreaView } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import { AssetsSelector } from "expo-images-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-// import CustomNavigator from "./components/CustomNavigator";
 import { MediaType } from "expo-media-library";
-import { MEDIA_LIBRARY } from "expo-permissions";
-import { useRecoilState } from "recoil-react-native";
-import { StackActions, NavigationActions } from "@react-navigation/native";
-// import { postImgState } from "../../states/Post";
 import { GRAY2, GRAY4 } from "../../styles/color";
 const ForceInset = {
   top: "never",
@@ -26,8 +13,6 @@ const ForceInset = {
 
 // IOS users , make sure u can use the images uri to upload , if your getting invalid file path or u cant work with asset-library://
 // Use = > getImageMetaData: true which will be little slower but give u also the absolute path of the Asset. just console loge the result to see the localUri
-
-// See => https://docs.expo.dev/versions/latest/sdk/media-library/#assetinfo
 
 export default function UploadImg({ navigation, route }) {
   // const [imgUri, setImgUri] = useRecoilState(postImgState);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { View, Text, Image, Button } from "react-native";
+import { Image } from "react-native";
 import CamIcon from "../../assets/camera.png";
 
 import { PRIMARY } from "../../styles/color";
@@ -17,7 +17,6 @@ export default function ChatInput({ setInput }) {
           setContent(text);
         }}
       />
-      {/* </ChatInputBox> */}
       <SubmitButton>
         <SubmitTxt
           onPress={() => {
@@ -40,11 +39,12 @@ const Wrapper = styled.View`
 `;
 const ChatInputBox = styled.TextInput`
   background-color: white;
-  width: 304px;
+  width: 100%;
   height: 39px;
   border-radius: 30px;
   border-color: #eaeaea;
   padding: 0 25px;
+  margin-left: 15px;
 `;
 const SubmitButton = styled.TouchableOpacity`
   z-index: 500;
