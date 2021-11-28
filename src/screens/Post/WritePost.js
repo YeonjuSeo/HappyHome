@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import getEnvVars from "../../settings/environment";
+import { CommonActions } from "@react-navigation/native";
 
 import {
   View,
@@ -54,8 +55,10 @@ export default function WritePostScreen({ navigation }) {
   const [myBuildingType, setMyBuildingType] = useState();
   const [myFloorsType, setMyFloorsType] = useState();
   const [myRoomType, setMyRoomType] = useState();
-  const [myRoomFeature, setMyRoomFeature] = useState();
-  const [myRoomOption, setMyRoomOption] = useState();
+  const [myRoomFeature, setMyRoomFeature] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [myRoomOption, setMyRoomOption] = useState([
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]);
   const [gender, setGender] = useState();
   const [smoking, setSmoking] = useState();
   const [date, setDate] = useState({
@@ -258,7 +261,13 @@ export default function WritePostScreen({ navigation }) {
             {roomOptionType.map((type, i) => (
               <SelectButton
                 onPress={() => {
-                  setMyRoomOption(i);
+                  let temp = myRoomOption;
+                  if (myRoomOption[i] == 0) {
+                    temp[i] = 1;
+                  } else if (myRoomOption[i] == 1) {
+                    temp[i] = 0;
+                  }
+                  setMyRoomOption(temp);
                 }}
                 txt={type}
                 flag={i}
@@ -271,7 +280,13 @@ export default function WritePostScreen({ navigation }) {
             {roomFeatureType.map((type, i) => (
               <TagSelectButton
                 onPress={() => {
-                  setMyRoomFeature(i);
+                  let temp = myRoomFeature;
+                  if (myRoomFeature[i] == 0) {
+                    temp[i] = 1;
+                  } else if (myRoomFeature[i] == 1) {
+                    temp[i] = 0;
+                  }
+                  setMyRoomFeature(temp);
                 }}
                 txt={`#${type}`}
               />
@@ -318,15 +333,16 @@ export default function WritePostScreen({ navigation }) {
           result.pictures = [
             "https://images.pexels.com/photos/6636309/pexels-photo-6636309.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
           ];
-          result.features = [myRoomFeature];
-          result.options = [myRoomOption];
+          result.features = myRoomFeature;
+          result.options = myRoomOption;
 
           console.log("result:", result);
           axios
             .post(`${apiUrl}/api/posts`, result)
             .then((res) => {
               //console.log(res);
-              navigation.navigate("Home");
+              // navigation.navigate("Home");
+              navigation.dispatch(CommonActions.goBack());
             })
             .catch((err) => {
               console.log(err);
