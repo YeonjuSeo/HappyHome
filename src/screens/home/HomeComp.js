@@ -19,6 +19,7 @@ import Carousel from "../../components/molecules/Carousel";
 import WriteIcon from "../../assets/pencil.png";
 import { SearchButton } from "../../components/atoms/SearchBar";
 import { SearchBar } from "react-native-elements";
+import { useFocusEffect } from "@react-navigation/core";
 
 const bannerData = [
   "https://postfiles.pstatic.net/MjAyMTExMjZfODAg/MDAxNjM3OTIzOTc4MjE1.qOyAYkSMSFZ7z0JmGnSSE-yaabDNe3W2GoHUzN7RkfIg.Rqn2nZPvPV6yVrA2KvS2oguv8jRo0KDufyNp8LENlAkg.PNG.kados22/banner.png?type=w773",
@@ -63,6 +64,7 @@ export default function HomeComp({ navigation }) {
         });
     }
   }
+
   useFocusEffect(
     React.useCallback(() => {
       if(isRecentOrder){
